@@ -9,6 +9,10 @@ Stage::~Stage() {
 
 }
 
+void Stage::clear() {
+    m_stage.fill(Blocks::Air);
+}
+
 void Stage::draw(int x, int y, int w, int h, double gridSize) const {
     draw(Point{ x, y }, Size{ w, h }, gridSize);
 }
@@ -45,4 +49,8 @@ Array<int32> Stage::getAsBinaryArray() {
         }
     }
     return ret;
+}
+
+Grid<Blocks> Stage::getAsGrid() {
+    return m_stage;
 }
