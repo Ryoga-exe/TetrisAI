@@ -212,5 +212,4 @@ namespace Mino {
         }
         return ret;
     }
-
 }
