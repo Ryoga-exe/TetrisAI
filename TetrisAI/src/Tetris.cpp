@@ -14,12 +14,14 @@ void Tetris::init() {
 }
 
 bool Tetris::update() {
-    
+
     return true;
 }
 
 void Tetris::draw() const {
 
     m_stage.draw(0, 0, Scene::Height() / 2, Scene::Height(), 1.0);
+
+    m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), m_currentMino);
 
 }

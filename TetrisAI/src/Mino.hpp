@@ -10,6 +10,13 @@ public:
     bool update();
     void draw() const;
 
+    void move(const int32 x, const int32 y);
+    void move(const Point diff);
+    void moveTo(const int32 x, const int32 y);
+    void moveTo(const Point to);
+    Mino moved(const int32 x, const int32 y) const;
+    Mino moved(const Point diff) const;
+
     Point position() const;
     uint32 type() const;
     uint32 angle() const;

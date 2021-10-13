@@ -9,6 +9,30 @@ Mino::~Mino() {
 
 }
 
+void Mino::move(const int32 x, const int32 y) {
+    move(Point{ x, y });
+}
+
+void Mino::move(const Point diff) {
+    m_pos += diff;
+}
+
+void Mino::moveTo(const int32 x, const int32 y) {
+    moveTo(Point{ x, y });
+}
+
+void Mino::moveTo(const Point to) {
+    m_pos = to;
+}
+
+Mino Mino::moved(const int32 x, const int32 y) const {
+    return moved(Point{ x, y });
+}
+
+Mino Mino::moved(const Point diff) const {
+    return Mino(m_type, m_angle, m_pos + diff);
+}
+
 bool Mino::update() {
     return true;
 }

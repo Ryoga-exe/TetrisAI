@@ -12,10 +12,13 @@ public:
     void draw(int x, int y, int w, int h, double gridSize = 0) const;
     void draw(Point v, Size s, double gridSize = 0) const;
 
-    bool isHit(const Mino& mino);
+    void drawMinoOnStage(int x, int y, int w, int h, const Mino& mino) const;
+    void drawMinoOnStage(Point v, Size s, const Mino& mino) const;
+    void fixMino(const Mino& mino);
+    bool isHit(const Mino& mino) const;
 
-    Array<int32> getAsBinaryArray();
-    Grid<Blocks> getAsGrid();
+    Array<int32> getAsBinaryArray() const;
+    Grid<Blocks> getAsGrid() const;
 
 private:
     Grid<Blocks> m_stage;
