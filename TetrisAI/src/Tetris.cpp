@@ -10,11 +10,11 @@ Tetris::~Tetris() {
 
 void Tetris::init() {
     m_stage.clear();
-    
+
 }
 
 bool Tetris::update() {
-
+    
     return true;
 }
 

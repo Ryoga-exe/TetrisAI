@@ -39,6 +39,23 @@ void Stage::draw(Point v, Size s, double gridSize) const {
     }
 }
 
+bool Stage::isHit(const Mino& mino) {
+    for (int32 y = 0; y < Mino::Size; y++) {
+        for (int32 x = 0; x < Mino::Size; x++) {
+            if (Mino::Shapes[mino.type()][mino.angle()][y][x] != Blocks::Air) {
+                auto [mx, my] = mino.position();
+                mx += x;
+                my += y;
+                if ((mx >= 0 && mx < Width) && (my >= 0 && my < Height)) {
+                    if (m_stage[my][mx] != Blocks::Air) return true;
+                }
+                else return true;
+            }
+        }
+    }
+    return false;
+}
+
 Array<int32> Stage::getAsBinaryArray() {
     Array<int32> ret(Height);
     for (int32 y = 0; y < Height; y++) {

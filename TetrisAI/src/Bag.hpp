@@ -7,7 +7,8 @@ public:
     Bag();
     ~Bag();
 
-    void set();
+    void clear();
+    bool set();
     uint32 get();
 
 private:
