@@ -18,7 +18,7 @@ void Stage::draw(int x, int y, int w, int h, double gridSize) const {
 }
 void Stage::draw(Point v, Size s, double gridSize) const {
     const float width = (float)s.x / Width;
-    const float height = (float)s.y / SeenHeight;
+    const float height = (float)s.y / Skyline;
 
     Rect{ v, s }.draw(Palette::Black);
 
@@ -28,13 +28,13 @@ void Stage::draw(Point v, Size s, double gridSize) const {
     for (int32 x = 0; x < Width - 1; x++) {
         verticalLine.moveBy(width, 0).draw(gridSize, Palette::Gray);
     }
-    for (int32 y = 0; y < SeenHeight - 1; y++) {
+    for (int32 y = 0; y < Skyline - 1; y++) {
         horizontalLine.moveBy(0, height).draw(gridSize, Palette::Gray);
     }
 
-    for (int32 y = Height - SeenHeight; y < Height; y++) {
+    for (int32 y = Height - Skyline; y < Height; y++) {
         for (int32 x = 0; x < Width; x++) {
-            if (m_stage[y][x] != Blocks::Air) RectF(width * x, height * (y - (Height - SeenHeight)), width, height).moveBy(v).draw(Mino::GetColor(m_stage[y][x]));
+            if (m_stage[y][x] != Blocks::Air) RectF(width * x, height * (y - (Height - Skyline)), width, height).moveBy(v).draw(Mino::GetColor(m_stage[y][x]));
         }
     }
 }
@@ -45,7 +45,7 @@ void Stage::drawMinoOnStage(int x, int y, int w, int h, const Mino& mino) const 
 
 void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino) const {
     const float width = (float)s.x / Width;
-    const float height = (float)s.y / SeenHeight;
+    const float height = (float)s.y / Skyline;
 
     for (int32 y = 0; y < Mino::Size; y++) {
         for (int32 x = 0; x < Mino::Size; x++) {
@@ -55,7 +55,7 @@ void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino) const {
                 mx += x;
                 my += y;
                 if ((mx >= 0 && mx < Width) && (my >= 0 && my < Height)) {
-                    RectF(width * mx, height * (my - (Height - SeenHeight)), width, height).moveBy(v).draw(Mino::GetColor(piece));
+                    RectF(width * mx, height * (my - (Height - Skyline)), width, height).moveBy(v).draw(Mino::GetColor(piece));
                 }
             }
         }

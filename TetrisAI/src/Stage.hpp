@@ -26,5 +26,5 @@ private:
 public:
     static constexpr uint32 Width = 10;
     static constexpr uint32 Height = 30;
-    static constexpr uint32 SeenHeight = 20;
+    static constexpr uint32 Skyline = 20;
 };
