@@ -1,8 +1,18 @@
 ﻿#include "Mino.hpp"
+#include "Stage.hpp"
+
+Mino::Mino()
+    : m_type(0), m_angle(0) {
+    m_pos = generatePos();
+}
+
+Mino::Mino(uint32 type, uint32 angle)
+    : m_type(type % Types), m_angle(angle % Angles) {
+    m_pos = generatePos();
+}
 
 Mino::Mino(uint32 type, uint32 angle, Point pos)
-    : m_type(type), m_angle(angle % Angles), m_pos(pos) {
-    if (type >= Types) m_type = 0;
+    : m_type(type % Types), m_angle(angle % Angles), m_pos(pos) {
 }
 
 Mino::~Mino() {
@@ -51,4 +61,20 @@ uint32 Mino::type() const {
 
 uint32 Mino::angle() const {
     return m_angle;
+}
+
+Mino Mino::operator =(const Mino& mino) {
+    this->m_pos = mino.m_pos;
+    this->m_type = mino.m_type;
+    this->m_angle = mino.m_angle;
+    return *this;
+}
+
+Point Mino::generatePos() {
+    Point ret;
+    ret.x = (Stage::Width - Mino::Size) / 2;
+    ret.y = Stage::Height - Stage::Skyline;
+    if (m_type == 0) ret.y -= 2;
+    else ret.y -= 3;
+    return ret;
 }

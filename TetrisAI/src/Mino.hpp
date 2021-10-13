@@ -4,7 +4,10 @@
 
 class Mino {
 public:
-    Mino(uint32 type = 0, uint32 angle = 0, Point pos = Point{ 0, 0 });
+    Mino();
+    Mino(uint32 type, uint32 angle = 0);
+    Mino(uint32 type, uint32 angle, Point pos);
+
     ~Mino();
 
     bool update();
@@ -20,6 +23,11 @@ public:
     Point position() const;
     uint32 type() const;
     uint32 angle() const;
+
+    Mino operator =(const Mino& mino);
+
+private:
+    Point generatePos();
 
 private:
     Point m_pos;
