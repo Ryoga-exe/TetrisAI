@@ -13,11 +13,17 @@ public:
 
     bool update();
     void draw() const;
+
+private:
+    void generate();
+
 private:
     Stage m_stage;
     Mino m_currentMino;
-    Array<Mino> m_nextMinoes;
+    std::list<Mino> m_nextMinoes;
 
     Bag m_bag;
+
+    int32 m_score;
 
 };
