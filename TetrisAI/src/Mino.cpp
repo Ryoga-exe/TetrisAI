@@ -19,20 +19,16 @@ Mino::~Mino() {
 
 }
 
+void Mino::draw() const {
+
+}
+
 void Mino::move(const int32 x, const int32 y) {
     move(Point{ x, y });
 }
 
 void Mino::move(const Point diff) {
     m_pos += diff;
-}
-
-void Mino::moveTo(const int32 x, const int32 y) {
-    moveTo(Point{ x, y });
-}
-
-void Mino::moveTo(const Point to) {
-    m_pos = to;
 }
 
 Mino Mino::moved(const int32 x, const int32 y) const {
@@ -43,12 +39,29 @@ Mino Mino::moved(const Point diff) const {
     return Mino(m_type, m_angle, m_pos + diff);
 }
 
-bool Mino::update() {
-    return true;
+void Mino::moveTo(const int32 x, const int32 y) {
+    moveTo(Point{ x, y });
 }
 
-void Mino::draw() const {
+void Mino::moveTo(const Point to) {
+    m_pos = to;
+}
 
+Mino Mino::movedTo(const int32 x, const int32 y) const {
+    return movedTo(Point{ x, y });
+}
+
+Mino Mino::movedTo(const Point to) const {
+    return Mino(m_type, m_angle, to);
+}
+
+void Mino::rotate(bool clockwise) {
+    m_angle = clockwise ? (m_angle + 1) % Angles : (m_angle + Angles - 1) % Angles;
+}
+
+Mino Mino::rotated(bool clockwise) const {
+    uint32 ret = clockwise ? (m_angle + 1) % Angles : (m_angle + Angles - 1) % Angles;
+    return Mino(m_type, ret, m_pos);
 }
 
 Point Mino::position() const {

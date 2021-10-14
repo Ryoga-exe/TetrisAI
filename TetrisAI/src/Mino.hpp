@@ -10,15 +10,19 @@ public:
 
     ~Mino();
 
-    bool update();
     void draw() const;
 
     void move(const int32 x, const int32 y);
     void move(const Point diff);
-    void moveTo(const int32 x, const int32 y);
-    void moveTo(const Point to);
     Mino moved(const int32 x, const int32 y) const;
     Mino moved(const Point diff) const;
+    void moveTo(const int32 x, const int32 y);
+    void moveTo(const Point to);
+    Mino movedTo(const int32 x, const int32 y) const;
+    Mino movedTo(const Point to) const;
+
+    void rotate(bool clockwise);
+    Mino rotated(bool clockwise) const;
 
     Point position() const;
     uint32 type() const;
