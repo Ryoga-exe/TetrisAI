@@ -223,13 +223,13 @@ public:
     static constexpr Color GetColor(Blocks block) {
         Color ret(0);
         switch (block) {
-        case I: ret = Palette::Lightblue; break;
+        case I: ret = Palette::Cyan; break;
         case O: ret = Palette::Yellow; break;
-        case S: ret = Palette::Green; break;
+        case S: ret = Palette::Limegreen; break;
         case Z: ret = Palette::Red; break;
-        case J: ret = Palette::Darkblue; break;
+        case J: ret = Palette::Blue; break;
         case L: ret = Palette::Orange; break;
-        case T: ret = Palette::Magenta; break;
+        case T: ret = Palette::Blueviolet; break;
         }
         return ret;
     }
