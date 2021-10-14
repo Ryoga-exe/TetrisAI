@@ -1,4 +1,5 @@
 ﻿#include "Tetris.hpp"
+#include "SRS.hpp"
 
 Tetris::Tetris() {
     init();
@@ -29,9 +30,9 @@ bool Tetris::update() {
         }
     }
     if (KeyUp.down()) {
-        if (!m_stage.isHit(m_currentMino.moved(0, -1))) {
-            m_currentMino.move(0, -1);
-        }
+        SRS::Rotate(m_stage, m_currentMino, true);
+        // true なら lockDown を加算
+        // ここで T-spin か判定
     }
     if (KeyLeft.down()) {
         if (!m_stage.isHit(m_currentMino.moved(-1, 0))) {

@@ -6,9 +6,7 @@ namespace SRS {
 
         for (uint32 i = 0; i < SRSCheckNum; i++) {
             Mino candidate = mino.rotated(clockwise).moved(SRSMovePos[mino.type() != 0][!clockwise][mino.angle()][i]);
-
             if (!stage.isHit(candidate)) {
-                // return candidate;
                 mino = candidate;
                 return true;
             }

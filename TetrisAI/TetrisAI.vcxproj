@@ -116,6 +116,8 @@
     <ClCompile Include="src\Bag.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Mino.cpp" />
+    <ClCompile Include="src\SRS.cpp" />
+    <ClCompile Include="src\SRS.hpp" />
     <ClCompile Include="src\Stage.cpp" />
     <ClCompile Include="src\Tetris.cpp" />
     <ClCompile Include="stdafx.cpp">
