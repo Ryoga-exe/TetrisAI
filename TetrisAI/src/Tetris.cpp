@@ -59,6 +59,12 @@ void Tetris::draw() const {
 
     m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), m_currentMino);
 
+    int32 y = 0;
+    for (auto nextMino : m_nextMinoes) {
+        nextMino.draw({ Scene::Height() / 2 + 70 , 10 + 80 * y}, {70, 70});
+        y++;
+    }
+
 }
 
 void Tetris::generate() {
