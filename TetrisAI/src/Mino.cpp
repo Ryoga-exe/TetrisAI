@@ -19,8 +19,19 @@ Mino::~Mino() {
 
 }
 
-void Mino::draw() const {
+void Mino::draw(const Point v, const ::Size s) const {
+    const float width = (float)s.x / Mino::Size;
+    const float height = (float)s.y / Mino::Size;
 
+    Rect{ v, s }.draw(Palette::Black);
+
+    for (int32 y = 0; y < Mino::Size; y++) {
+        for (int32 x = 0; x < Mino::Size; x++) {
+            if (Mino::Shapes[m_type][m_angle][y][x] != Blocks::Air) {
+                RectF(width * x, height * y, width, height).moveBy(v).draw(Mino::GetColor(Mino::Shapes[m_type][m_angle][y][x]));
+            }
+        }
+    }
 }
 
 void Mino::move(const int32 x, const int32 y) {
