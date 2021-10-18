@@ -4,6 +4,16 @@
 #include "Mino.hpp"
 #include "Bag.hpp"
 
+enum class Action {
+    MoveLeft,
+    MoveRight,
+    SoftDrop,
+    HardDrop,
+    RotateClockwise,
+    RotateCounterclockwise,
+    Hold,
+};
+
 class Tetris {
 public:
     Tetris();
