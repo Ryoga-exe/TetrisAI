@@ -117,7 +117,6 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Mino.cpp" />
     <ClCompile Include="src\SRS.cpp" />
-    <ClCompile Include="src\SRS.hpp" />
     <ClCompile Include="src\Stage.cpp" />
     <ClCompile Include="src\Tetris.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -321,6 +320,7 @@
     <ClInclude Include="src\Block.hpp" />
     <ClInclude Include="src\Common.hpp" />
     <ClInclude Include="src\Mino.hpp" />
+    <ClInclude Include="src\SRS.hpp" />
     <ClInclude Include="src\Stage.hpp" />
     <ClInclude Include="src\Tetris.hpp" />
     <ClInclude Include="stdafx.h" />
