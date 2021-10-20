@@ -19,10 +19,28 @@ void Tetris::init() {
     generate();
 }
 
-bool Tetris::update() {
+bool Tetris::update(Action action) {
 
-    ClearPrint();
-    Print << m_currentMino.position();
+    switch (action) {
+    case Action::None:
+        break;
+    case Action::MoveLeft:
+        break;
+    case Action::MoveRight:
+        break;
+    case Action::SoftDrop:
+        break;
+    case Action::HardDrop:
+        break;
+    case Action::RotateClockwise:
+        break;
+    case Action::RotateCounterclockwise:
+        break;
+    case Action::Hold:
+        break;
+    default:
+        break;
+    }
 
     if (KeyDown.down()) {
         if (!m_stage.isHit(m_currentMino.moved(0, 1))) {

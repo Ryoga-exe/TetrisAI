@@ -5,6 +5,7 @@
 #include "Bag.hpp"
 
 enum class Action {
+    None,
     MoveLeft,
     MoveRight,
     SoftDrop,
@@ -21,7 +22,7 @@ public:
 
     void init();
 
-    bool update();
+    bool update(Action action = Action::None);
     void draw() const;
 
 private:
