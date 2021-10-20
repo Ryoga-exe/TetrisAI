@@ -17,11 +17,16 @@ public:
     void fixMino(const Mino& mino);
     bool isHit(const Mino& mino) const;
 
+    int32 countCompletedLines();
+    Array<uint32> CompletedLines();
+    bool deleteCompletedLines();
+
     Array<int32> getAsBinaryArray() const;
     Grid<Blocks> getAsGrid() const;
 
 private:
     Grid<Blocks> m_stage;
+    Array<int32> m_binaryStage;
 
 public:
     static constexpr uint32 Width = 10;

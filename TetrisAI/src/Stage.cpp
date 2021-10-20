@@ -1,6 +1,6 @@
 ﻿#include "Stage.hpp"
 
-Stage::Stage() : m_stage(Width, Height, Blocks::Air){
+Stage::Stage() : m_stage(Width, Height, Blocks::Air), m_binaryStage(Height, 0) {
     
 }
 
@@ -72,6 +72,7 @@ void Stage::fixMino(const Mino& mino) {
                 my += y;
                 if ((mx >= 0 && mx < Width) && (my >= 0 && my < Height)) {
                     m_stage[my][mx] = piece;
+                    m_binaryStage[my] |= (1 << mx);
                 }
             }
         }
@@ -96,15 +97,7 @@ bool Stage::isHit(const Mino& mino) const {
 }
 
 Array<int32> Stage::getAsBinaryArray() const {
-    Array<int32> ret(Height);
-    for (int32 y = 0; y < Height; y++) {
-        for (int32 x = 0; x < Width; x++) {
-            if (m_stage[y][x] != Blocks::Air) {
-                ret[y] |= (1 << x);
-            }
-        }
-    }
-    return ret;
+    return m_binaryStage;
 }
 
 Grid<Blocks> Stage::getAsGrid() const {
