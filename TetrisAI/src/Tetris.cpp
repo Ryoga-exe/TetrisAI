@@ -21,6 +21,11 @@ void Tetris::init() {
 
 bool Tetris::update(Action action) {
 
+    ClearPrint();
+    Print << m_stage.countCompletedLines();
+
+    m_stage.deleteCompletedLines();
+
     switch (action) {
     case Action::None:
         break;

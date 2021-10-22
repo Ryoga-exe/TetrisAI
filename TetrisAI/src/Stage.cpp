@@ -11,6 +11,7 @@ Stage::~Stage() {
 
 void Stage::clear() {
     m_stage.fill(Blocks::Air);
+    m_binaryStage.fill(0);
 }
 
 void Stage::draw(int x, int y, int w, int h, double gridSize) const {
@@ -96,9 +97,47 @@ bool Stage::isHit(const Mino& mino) const {
     return false;
 }
 
+uint32 Stage::countCompletedLines() const {
+    return static_cast<uint32>(m_binaryStage.count((1 << Width) - 1));
+}
+
+Array<uint32> Stage::CompletedLines() const {
+    Array<uint32> ret;
+    for (uint32 i = 0; i < Height; i++) {
+        if (m_binaryStage[i] == (1 << Width) - 1) ret << i;
+    }
+    return ret;
+}
+
+bool Stage::cleared() const {
+    return m_binaryStage.all([](int32 x) {return x == 0; });
+}
+
+int32 Stage::deleteCompletedLines() {
+    int32 lineNum = 0;
+    int32 nowY = Height - 1;
+
+    // if (countCompletedLines() == 0) return 0;
+
+    for (int32 y = Height - 1; y >= 0; y--) {
+        if (m_binaryStage[y] == (1 << Width) - 1) {
+            lineNum++;
+            continue;
+        }
+
+        for (int32 x = 0; x < Width; x++) {
+            m_stage[nowY][x] = m_stage[y][x];
+            m_binaryStage[nowY] = m_binaryStage[y];
+        }
+        nowY--;
+    }
+    return lineNum;
+}
+
 Array<int32> Stage::getAsBinaryArray() const {
     return m_binaryStage;
 }
+
 
 Grid<Blocks> Stage::getAsGrid() const {
     return m_stage;

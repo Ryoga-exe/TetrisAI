@@ -7,7 +7,7 @@ class Stage {
 public:
     Stage();
     ~Stage();
-
+    
     void clear();
     void draw(int x, int y, int w, int h, double gridSize = 0) const;
     void draw(Point v, Size s, double gridSize = 0) const;
@@ -17,10 +17,11 @@ public:
     void fixMino(const Mino& mino);
     bool isHit(const Mino& mino) const;
 
-    int32 countCompletedLines();
-    Array<uint32> CompletedLines();
-    bool deleteCompletedLines();
-
+    uint32 countCompletedLines() const;
+    Array<uint32> CompletedLines() const;
+    bool cleared() const;
+    int32 deleteCompletedLines();
+    
     Array<int32> getAsBinaryArray() const;
     Grid<Blocks> getAsGrid() const;
 
