@@ -19,46 +19,44 @@ void Tetris::init() {
     generate();
 }
 
-bool Tetris::update(Action action) {
+bool Tetris::update(uint8 action) {
 
     m_stage.deleteCompletedLines();
 
-    switch (action) {
-    case Action::None:
-        break;
-    case Action::MoveLeft:
-        if (!m_stage.isHit(m_currentMino.moved(-1, 0))) {
-            m_currentMino.move(-1, 0);
+    for (uint8 i = 0; i < 8; i++) {
+        switch (action & (1 << i)) {
+        case Action::MoveLeft:
+            if (!m_stage.isHit(m_currentMino.moved(-1, 0))) {
+                m_currentMino.move(-1, 0);
+            }
+            break;
+        case Action::MoveRight:
+            if (!m_stage.isHit(m_currentMino.moved(1, 0))) {
+                m_currentMino.move(1, 0);
+            }
+            break;
+        case Action::SoftDrop:
+            if (!m_stage.isHit(m_currentMino.moved(0, 1))) {
+                m_currentMino.move(0, 1);
+            }
+            break;
+        case Action::HardDrop:
+            break;
+        case Action::RotateClockwise:
+            SRS::Rotate(m_stage, m_currentMino, true);
+            // true なら lockDown を加算
+            // ここで T-spin か判定
+            break;
+        case Action::RotateCounterclockwise:
+            SRS::Rotate(m_stage, m_currentMino, false);
+            // true なら lockDown を加算
+            // ここで T-spin か判定
+            break;
+        case Action::Hold:
+            break;
+        default:
+            break;
         }
-        break;
-    case Action::MoveRight:
-        if (!m_stage.isHit(m_currentMino.moved(1, 0))) {
-            m_currentMino.move(1, 0);
-        }
-        break;
-    case Action::SoftDrop:
-        break;
-    case Action::HardDrop:
-        break;
-    case Action::RotateClockwise:
-        break;
-    case Action::RotateCounterclockwise:
-        break;
-    case Action::Hold:
-        break;
-    default:
-        break;
-    }
-
-    if (KeyDown.down()) {
-        if (!m_stage.isHit(m_currentMino.moved(0, 1))) {
-            m_currentMino.move(0, 1);
-        }
-    }
-    if (KeyUp.down()) {
-        SRS::Rotate(m_stage, m_currentMino, true);
-        // true なら lockDown を加算
-        // ここで T-spin か判定
     }
 
     if (KeySpace.down()) {

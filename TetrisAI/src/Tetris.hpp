@@ -4,16 +4,16 @@
 #include "Mino.hpp"
 #include "Bag.hpp"
 
-enum class Action {
-    None,
-    MoveLeft,
-    MoveRight,
-    SoftDrop,
-    HardDrop,
-    RotateClockwise,
-    RotateCounterclockwise,
-    Hold,
-};
+namespace Action {
+    constexpr uint8
+        MoveLeft               = 1 << 0,
+        MoveRight              = 1 << 1,
+        SoftDrop               = 1 << 2,
+        HardDrop               = 1 << 3,
+        RotateClockwise        = 1 << 4,
+        RotateCounterclockwise = 1 << 5,
+        Hold                   = 1 << 6;
+}
 
 class Tetris {
 public:
@@ -22,7 +22,7 @@ public:
 
     void init();
 
-    bool update(Action action = Action::None);
+    bool update(uint8 action = 0);
     void draw() const;
 
 private:
