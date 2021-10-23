@@ -31,7 +31,7 @@ private:
 private:
     Stage m_stage;
     Mino m_currentMino;
-    std::list<Mino> m_nextMinoes;
+    std::list<Mino> m_nextMinos;
 
     Bag m_bag;
 

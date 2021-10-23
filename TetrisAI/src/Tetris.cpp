@@ -12,8 +12,8 @@ Tetris::~Tetris() {
 void Tetris::init() {
     m_stage.clear();
     m_bag.clear();
-    m_nextMinoes.clear();
-    for (int32 i = 0; i < 6; i++) m_nextMinoes.push_back(m_bag.get());
+    m_nextMinos.clear();
+    for (int32 i = 0; i < 6; i++) m_nextMinos.push_back(m_bag.get());
 
     m_score = 0;
     generate();
@@ -74,7 +74,7 @@ void Tetris::draw() const {
     m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), m_currentMino);
 
     int32 y = 0;
-    for (auto nextMino : m_nextMinoes) {
+    for (auto nextMino : m_nextMinos) {
         nextMino.draw({ Scene::Height() / 2 + 70 , 10 + 80 * y}, {70, 70});
         y++;
     }
@@ -83,9 +83,9 @@ void Tetris::draw() const {
 
 void Tetris::generate() {
 
-    m_currentMino = m_nextMinoes.front();
-    m_nextMinoes.pop_front();
-    m_nextMinoes.push_back(m_bag.get());
+    m_currentMino = m_nextMinos.front();
+    m_nextMinos.pop_front();
+    m_nextMinos.push_back(m_bag.get());
 
     if (m_stage.isHit(m_currentMino)) {
         // gameover
