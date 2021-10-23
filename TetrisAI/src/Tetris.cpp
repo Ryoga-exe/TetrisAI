@@ -21,17 +21,20 @@ void Tetris::init() {
 
 bool Tetris::update(Action action) {
 
-    ClearPrint();
-    Print << m_stage.countCompletedLines();
-
     m_stage.deleteCompletedLines();
 
     switch (action) {
     case Action::None:
         break;
     case Action::MoveLeft:
+        if (!m_stage.isHit(m_currentMino.moved(-1, 0))) {
+            m_currentMino.move(-1, 0);
+        }
         break;
     case Action::MoveRight:
+        if (!m_stage.isHit(m_currentMino.moved(1, 0))) {
+            m_currentMino.move(1, 0);
+        }
         break;
     case Action::SoftDrop:
         break;
@@ -56,16 +59,6 @@ bool Tetris::update(Action action) {
         SRS::Rotate(m_stage, m_currentMino, true);
         // true なら lockDown を加算
         // ここで T-spin か判定
-    }
-    if (KeyLeft.down()) {
-        if (!m_stage.isHit(m_currentMino.moved(-1, 0))) {
-            m_currentMino.move(-1, 0);
-        }
-    }
-    if (KeyRight.down()) {
-        if (!m_stage.isHit(m_currentMino.moved(1, 0))) {
-            m_currentMino.move(1, 0);
-        }
     }
 
     if (KeySpace.down()) {
