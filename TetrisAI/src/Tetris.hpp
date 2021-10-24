@@ -24,6 +24,13 @@ public:
 
     bool update(uint8 action = 0);
     void draw() const;
+    void drawMino(Mino& mino) const;
+
+    Stage getStage() {
+        return m_stage;
+    }
+    Array<Mino> getAllPlaceable();
+    Array<std::pair<Mino, String>> getAllPlaceableAndOperation();
 
 private:
     void generate();

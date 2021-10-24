@@ -23,6 +23,7 @@ bool Tetris::update(uint8 action) {
 
     m_stage.deleteCompletedLines();
 
+    
     for (uint8 i = 0; i < 8; i++) {
         switch (action & (1 << i)) {
         case Action::MoveLeft:
@@ -81,6 +82,10 @@ void Tetris::draw() const {
 
 }
 
+void Tetris::drawMino(Mino& mino) const {
+    m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), mino);
+}
+
 void Tetris::generate() {
 
     m_currentMino = m_nextMinos.front();
@@ -97,4 +102,60 @@ void Tetris::generate() {
         }
         else break;
     }
+}
+
+Array<Mino> Tetris::getAllPlaceable() {
+    Array<Mino> ret;
+
+    std::deque<Mino> que;
+    HashSet<Vector3D<int32>> visited;
+    que.push_back(m_currentMino);
+    visited.insert(m_currentMino.asVec3());
+    
+    while (!que.empty()) {
+        Mino q = que.front();
+        que.pop_front();
+
+        // Right
+        if (!m_stage.isHit(q.moved(1, 0))) {
+            if (!visited.contains(q.moved(1, 0).asVec3())) {
+                que.push_front(q.moved(1, 0));
+                visited.insert(q.moved(1, 0).asVec3());
+            }
+        }
+
+        // Left
+        if (!m_stage.isHit(q.moved(-1, 0))) {
+            if (!visited.contains(q.moved(-1, 0).asVec3())) {
+                que.push_front(q.moved(-1, 0));
+                visited.insert(q.moved(-1, 0).asVec3());
+            }
+        }
+        // Down
+        if (!m_stage.isHit(q.moved(0, 1))) {
+            if (!visited.contains(q.moved(0, 1).asVec3())) {
+                que.push_front(q.moved(0, 1));
+                visited.insert(q.moved(0, 1).asVec3());
+            }
+        }
+        else {
+            ret << q;
+        }
+        // Rotate clockwise
+        Mino rotatedClockwise = SRS::Rotated(m_stage, q, true);
+        if (!visited.contains(rotatedClockwise.asVec3())) {
+            que.push_back(rotatedClockwise);
+            visited.insert(rotatedClockwise.asVec3());
+        }
+
+        // Rotate counterclockwise
+        Mino rotatedCounterclockwise = SRS::Rotated(m_stage, q, false);
+        if (!visited.contains(rotatedCounterclockwise.asVec3())) {
+            que.push_back(rotatedCounterclockwise);
+            visited.insert(rotatedCounterclockwise.asVec3());
+        }
+    }
+
+
+    return ret;
 }

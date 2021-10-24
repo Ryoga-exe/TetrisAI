@@ -138,7 +138,6 @@ Array<int32> Stage::getAsBinaryArray() const {
     return m_binaryStage;
 }
 
-
 Grid<Blocks> Stage::getAsGrid() const {
     return m_stage;
 }

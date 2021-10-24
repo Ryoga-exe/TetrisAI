@@ -27,8 +27,17 @@ public:
     Point position() const;
     uint32 type() const;
     uint32 angle() const;
+    Vector3D<int32> asVec3() const {
+        return Vector3D<int32>{ m_pos.x, m_pos.y, m_angle };
+    }
+    Vector4D<int32> asVec4() const {
+        return Vector4D<int32>{ m_type, m_pos.x, m_pos.y, m_angle };
+    }
 
     Mino operator =(const Mino& mino);
+    bool operator ==(const Mino& r) const {
+        return (m_type == r.m_type) && (m_pos == r.m_pos) && (m_angle == r.m_angle);
+    }
 
 private:
     Point generatePos();

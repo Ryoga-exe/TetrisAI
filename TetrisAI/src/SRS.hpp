@@ -5,7 +5,8 @@
 // SRS ... Super Rotation System
 namespace SRS {
 
-    bool Rotate(Stage& stage, Mino& mino, bool clockwise);
+    bool Rotate(const Stage& stage, Mino& mino, const bool clockwise);
+    Mino Rotated(const Stage& stage, const Mino& mino, const bool clockwise);
 
     constexpr uint32 SRSCheckNum = 5;
     constexpr Point SRSMovePos[2][2][Mino::Angles][SRSCheckNum]
