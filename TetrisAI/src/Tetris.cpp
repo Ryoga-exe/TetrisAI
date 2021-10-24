@@ -82,8 +82,12 @@ void Tetris::draw() const {
 
 }
 
-void Tetris::drawMino(Mino& mino) const {
+void Tetris::drawMino(const Mino& mino) const {
     m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), mino);
+}
+
+void Tetris::drawMino(const Mino& mino, const Color color) const {
+    m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), mino, color);
 }
 
 void Tetris::generate() {

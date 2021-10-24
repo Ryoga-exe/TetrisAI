@@ -44,6 +44,10 @@ void Stage::drawMinoOnStage(int x, int y, int w, int h, const Mino& mino) const 
     drawMinoOnStage(Point{ x, y }, Size{ w, h }, mino);
 }
 
+void Stage::drawMinoOnStage(int x, int y, int w, int h, const Mino& mino, const Color color) const {
+    drawMinoOnStage(Point{ x, y }, Size{ w, h }, mino, color);
+}
+
 void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino) const {
     const float width = (float)s.x / Width;
     const float height = (float)s.y / Skyline;
@@ -62,6 +66,26 @@ void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino) const {
         }
     }
 }
+
+void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino, const Color color) const {
+    const float width = (float)s.x / Width;
+    const float height = (float)s.y / Skyline;
+
+    for (int32 y = 0; y < Mino::Size; y++) {
+        for (int32 x = 0; x < Mino::Size; x++) {
+            Blocks piece = Mino::Shapes[mino.type()][mino.angle()][y][x];
+            if (piece != Blocks::Air) {
+                auto [mx, my] = mino.position();
+                mx += x;
+                my += y;
+                if ((mx >= 0 && mx < Width) && (my >= 0 && my < Height)) {
+                    RectF(width * mx, height * (my - (Height - Skyline)), width, height).moveBy(v).draw(color);
+                }
+            }
+        }
+    }
+}
+
 
 void Stage::fixMino(const Mino& mino) {
     for (int32 y = 0; y < Mino::Size; y++) {

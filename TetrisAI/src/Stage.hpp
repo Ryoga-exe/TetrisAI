@@ -13,7 +13,9 @@ public:
     void draw(Point v, Size s, double gridSize = 0) const;
 
     void drawMinoOnStage(int x, int y, int w, int h, const Mino& mino) const;
+    void drawMinoOnStage(int x, int y, int w, int h, const Mino& mino, const Color color) const;
     void drawMinoOnStage(Point v, Size s, const Mino& mino) const;
+    void drawMinoOnStage(Point v, Size s, const Mino& mino, const Color color) const;
     void fixMino(const Mino& mino);
     bool isHit(const Mino& mino) const;
 
