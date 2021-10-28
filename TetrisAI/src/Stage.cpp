@@ -40,15 +40,15 @@ void Stage::draw(Point v, Size s, double gridSize) const {
     }
 }
 
-void Stage::drawMinoOnStage(int x, int y, int w, int h, const Mino& mino) const {
-    drawMinoOnStage(Point{ x, y }, Size{ w, h }, mino);
+void Stage::drawMinoOnStage(int x, int y, int w, int h, const Mino& mino, const double opacity) const {
+    drawMinoOnStage(Point{ x, y }, Size{ w, h }, mino, opacity);
 }
 
 void Stage::drawMinoOnStage(int x, int y, int w, int h, const Mino& mino, const Color color) const {
     drawMinoOnStage(Point{ x, y }, Size{ w, h }, mino, color);
 }
 
-void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino) const {
+void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino, const double opacity) const {
     const float width = (float)s.x / Width;
     const float height = (float)s.y / Skyline;
 
@@ -60,7 +60,7 @@ void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino) const {
                 mx += x;
                 my += y;
                 if ((mx >= 0 && mx < Width) && (my >= 0 && my < Height)) {
-                    RectF(width * mx, height * (my - (Height - Skyline)), width, height).moveBy(v).draw(Mino::GetColor(piece));
+                    RectF(width * mx, height * (my - (Height - Skyline)), width, height).moveBy(v).draw(ColorF(Mino::GetColor(piece), opacity));
                 }
             }
         }

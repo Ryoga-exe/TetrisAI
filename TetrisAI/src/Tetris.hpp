@@ -24,7 +24,7 @@ public:
 
     bool update(uint8 action = 0);
     void draw() const;
-    void drawMino(const Mino& mino) const;
+    void drawMino(const Mino& mino, const double opacity = 1.0) const;
     void drawMino(const Mino& mino, const Color color) const;
 
     Stage getStage() {
