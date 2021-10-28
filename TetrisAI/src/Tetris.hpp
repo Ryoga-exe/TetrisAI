@@ -34,7 +34,6 @@ public:
 
 private:
     void generate();
-    bool hasTSpined();
 
 private:
     Stage m_stage;

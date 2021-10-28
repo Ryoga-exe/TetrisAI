@@ -7,8 +7,8 @@ void Main() {
     KeyConfig keycon;
     int32 index = 0;
     while (System::Update()) {
-        ClearPrint();
-        Print << index;
+        //ClearPrint();
+        //Print << index;
         tetris.update(keycon);
         tetris.draw();
 
