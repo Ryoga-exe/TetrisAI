@@ -35,6 +35,7 @@ public:
 
 private:
     void generate();
+    void drawGhostMino() const;
 
 private:
     Stage m_stage;

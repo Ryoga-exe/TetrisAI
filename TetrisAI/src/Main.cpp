@@ -14,7 +14,7 @@ void Main() {
 
         auto res = tetris.getAllPlaceable();
 
-        if (0 <= index && index < res.size()) tetris.drawMino(res[index], ColorF(1.0, 0.3));
+        // if (0 <= index && index < res.size()) tetris.drawMino(res[index], ColorF(1.0, 0.3));
 
         if (Key1.down()) index++;
         if (Key2.down()) index--;

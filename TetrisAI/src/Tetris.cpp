@@ -23,7 +23,7 @@ bool Tetris::update(uint8 action) {
 
     m_stage.deleteCompletedLines();
 
-    
+    bool isFixMino = false;
     for (uint8 i = 0; i < 8; i++) {
         switch (action & (1 << i)) {
         case Action::MoveLeft:
@@ -40,8 +40,18 @@ bool Tetris::update(uint8 action) {
             if (!m_stage.isHit(m_currentMino.moved(0, 1))) {
                 m_currentMino.move(0, 1);
             }
+            else {
+                isFixMino = true;
+            }
             break;
         case Action::HardDrop:
+            for (int32 y = 0; ; y++) {
+                if (m_stage.isHit(m_currentMino.moved(0, y+1))) {
+                    m_currentMino.move(0, y);
+                    break;
+                }
+            }
+            isFixMino = true;
             break;
         case Action::RotateClockwise:
             SRS::Rotate(m_stage, m_currentMino, true);
@@ -58,9 +68,13 @@ bool Tetris::update(uint8 action) {
         default:
             break;
         }
+
+        if (isFixMino) {
+            break;
+        }
     }
 
-    if (KeySpace.down()) {
+    if (isFixMino) {
         m_stage.fixMino(m_currentMino);
         generate();
     }
@@ -71,6 +85,8 @@ bool Tetris::update(uint8 action) {
 void Tetris::draw() const {
 
     m_stage.draw(0, 0, Scene::Height() / 2, Scene::Height(), 1.0);
+
+    drawGhostMino();
 
     m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), m_currentMino);
 
@@ -88,6 +104,15 @@ void Tetris::drawMino(const Mino& mino, const double opacity) const {
 
 void Tetris::drawMino(const Mino& mino, const Color color) const {
     m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), mino, color);
+}
+
+void Tetris::drawGhostMino() const {
+    for (int32 y = 0; ; y++) {
+        if (m_stage.isHit(m_currentMino.moved(0, y + 1))) {
+            m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), m_currentMino.moved(0, y), 0.3);
+            break;
+        }
+    }
 }
 
 void Tetris::generate() {
