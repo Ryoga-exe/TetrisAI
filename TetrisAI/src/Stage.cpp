@@ -14,6 +14,10 @@ void Stage::clear() {
     m_binaryStage.fill(0);
 }
 
+void Stage::update() {
+    m_minos.clear();
+}
+
 void Stage::draw(int x, int y, int w, int h, double gridSize) const {
     draw(Point{ x, y }, Size{ w, h }, gridSize);
 }
@@ -39,52 +43,29 @@ void Stage::draw(Point v, Size s, double gridSize) const {
             if (m_stage[y][x] != Blocks::Air) RectF(width * x, height * (y - (Height - Skyline)), width, height).moveBy(v).draw(Mino::GetColor(m_stage[y][x]));
         }
     }
-}
 
-void Stage::drawMinoOnStage(int x, int y, int w, int h, const Mino& mino, const double opacity) const {
-    drawMinoOnStage(Point{ x, y }, Size{ w, h }, mino, opacity);
-}
-
-void Stage::drawMinoOnStage(int x, int y, int w, int h, const Mino& mino, const Color color) const {
-    drawMinoOnStage(Point{ x, y }, Size{ w, h }, mino, color);
-}
-
-void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino, const double opacity) const {
-    const float width = (float)s.x / Width;
-    const float height = (float)s.y / Skyline;
-
-    for (int32 y = 0; y < Mino::Size; y++) {
-        for (int32 x = 0; x < Mino::Size; x++) {
-            Blocks piece = Mino::Shapes[mino.type()][mino.angle()][y][x];
-            if (piece != Blocks::Air) {
-                auto [mx, my] = mino.position();
-                mx += x;
-                my += y;
-                if ((mx >= 0 && mx < Width) && (my >= 0 && my < Height)) {
-                    RectF(width * mx, height * (my - (Height - Skyline)), width, height).moveBy(v).draw(ColorF(Mino::GetColor(piece), opacity));
+    for (auto [mino, opacity, color] : m_minos) {
+        for (int32 y = 0; y < Mino::Size; y++) {
+            for (int32 x = 0; x < Mino::Size; x++) {
+                Blocks piece = Mino::Shapes[mino.type()][mino.angle()][y][x];
+                if (piece != Blocks::Air) {
+                    auto [mx, my] = mino.position();
+                    mx += x;
+                    my += y;
+                    if ((mx >= 0 && mx < Width) && (my >= 0 && my < Height)) {
+                        RectF(width * mx, height * (my - (Height - Skyline)), width, height).moveBy(v).draw(ColorF(color ? color.value() : Mino::GetColor(piece), opacity));
+                    }
                 }
             }
         }
     }
 }
 
-void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino, const Color color) const {
-    const float width = (float)s.x / Width;
-    const float height = (float)s.y / Skyline;
-
-    for (int32 y = 0; y < Mino::Size; y++) {
-        for (int32 x = 0; x < Mino::Size; x++) {
-            Blocks piece = Mino::Shapes[mino.type()][mino.angle()][y][x];
-            if (piece != Blocks::Air) {
-                auto [mx, my] = mino.position();
-                mx += x;
-                my += y;
-                if ((mx >= 0 && mx < Width) && (my >= 0 && my < Height)) {
-                    RectF(width * mx, height * (my - (Height - Skyline)), width, height).moveBy(v).draw(color);
-                }
-            }
-        }
-    }
+void Stage::addDrawMino(const Mino& mino, double opacity) {
+    m_minos.push_back({ mino, opacity, Optional<Color>() });
+}
+void Stage::addDrawMino(const Mino& mino, Color color) {
+    m_minos.push_back({ mino, 1.0, color });
 }
 
 void Stage::fixMino(const Mino& mino) {

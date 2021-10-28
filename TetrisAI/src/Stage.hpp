@@ -9,13 +9,15 @@ public:
     ~Stage();
     
     void clear();
+
+    void update();
+
     void draw(int x, int y, int w, int h, double gridSize = 0) const;
     void draw(Point v, Size s, double gridSize = 0) const;
 
-    void drawMinoOnStage(int x, int y, int w, int h, const Mino& mino, const double opacity = 1.0) const;
-    void drawMinoOnStage(int x, int y, int w, int h, const Mino& mino, const Color color) const;
-    void drawMinoOnStage(Point v, Size s, const Mino& mino, const double opacity = 1.0) const;
-    void drawMinoOnStage(Point v, Size s, const Mino& mino, const Color color) const;
+    void addDrawMino(const Mino& mino, double opacity = 1.0);
+    void addDrawMino(const Mino& mino, Color color);
+
     void fixMino(const Mino& mino);
     bool isHit(const Mino& mino) const;
 
@@ -30,6 +32,7 @@ public:
 private:
     Grid<Blocks> m_stage;
     Array<int32> m_binaryStage;
+    std::list<std::tuple<Mino, double, Optional<Color>>> m_minos;
 
 public:
     static constexpr uint32 Width = 10;

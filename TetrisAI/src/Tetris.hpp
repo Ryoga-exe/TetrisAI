@@ -24,8 +24,8 @@ public:
 
     bool update(uint8 action = 0);
     void draw() const;
-    void drawMino(const Mino& mino, const double opacity = 1.0) const;
-    void drawMino(const Mino& mino, const Color color) const;
+    void addDrawMino(const Mino& mino, const double opacity = 1.0);
+    void addDrawMino(const Mino& mino, const Color color);
 
     Stage getStage() {
         return m_stage;
@@ -35,7 +35,6 @@ public:
 
 private:
     void generate();
-    void drawGhostMino() const;
 
 private:
     Stage m_stage;
