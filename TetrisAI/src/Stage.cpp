@@ -17,6 +17,7 @@ void Stage::clear() {
 void Stage::draw(int x, int y, int w, int h, double gridSize) const {
     draw(Point{ x, y }, Size{ w, h }, gridSize);
 }
+
 void Stage::draw(Point v, Size s, double gridSize) const {
     const float width = (float)s.x / Width;
     const float height = (float)s.y / Skyline;
@@ -86,7 +87,6 @@ void Stage::drawMinoOnStage(Point v, Size s, const Mino& mino, const Color color
     }
 }
 
-
 void Stage::fixMino(const Mino& mino) {
     for (int32 y = 0; y < Mino::Size; y++) {
         for (int32 x = 0; x < Mino::Size; x++) {
@@ -140,8 +140,6 @@ bool Stage::cleared() const {
 int32 Stage::deleteCompletedLines() {
     int32 lineNum = 0;
     int32 nowY = Height - 1;
-
-    // if (countCompletedLines() == 0) return 0;
 
     for (int32 y = Height - 1; y >= 0; y--) {
         if (m_binaryStage[y] == (1 << Width) - 1) {
