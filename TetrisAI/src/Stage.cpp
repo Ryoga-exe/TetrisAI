@@ -23,8 +23,8 @@ void Stage::draw(Point v, Size s, double gridSize) const {
 
     Rect{ v, s }.draw(Palette::Black);
 
-    Line verticalLine{ v, 0, s.y};
-    Line horizontalLine{ v, s.x, 0 };
+    Line verticalLine{ v, v.x, v.y + s.y};
+    Line horizontalLine{ v, v.x + s.x, v.y};
 
     for (int32 x = 0; x < Width - 1; x++) {
         verticalLine.moveBy(width, 0).draw(gridSize, Palette::Gray);

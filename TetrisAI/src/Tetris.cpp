@@ -13,6 +13,8 @@ void Tetris::init() {
     m_stage.clear();
     m_bag.clear();
     m_nextMinos.clear();
+    m_holdMino.reset();
+    m_hasHeld = false;
     for (int32 i = 0; i < 6; i++) m_nextMinos.push_back(m_bag.get());
 
     m_score = 0;
@@ -41,7 +43,7 @@ bool Tetris::update(uint8 action) {
                 m_currentMino.move(0, 1);
             }
             else {
-                isFixMino = true;
+                // isFixMino = true;
             }
             break;
         case Action::HardDrop:
@@ -64,6 +66,19 @@ bool Tetris::update(uint8 action) {
             // ここで T-spin か判定
             break;
         case Action::Hold:
+            if (!m_hasHeld) {
+                Mino buf = Mino(m_currentMino.type());
+                if (!m_holdMino) {
+                    m_holdMino = buf;
+                    generate();
+                }
+                else {
+                    m_nextMinos.push_front(*m_holdMino);
+                    m_holdMino = buf;
+                    generate();
+                }
+                m_hasHeld = true;
+            }
             break;
         default:
             break;
@@ -76,6 +91,7 @@ bool Tetris::update(uint8 action) {
 
     if (isFixMino) {
         m_stage.fixMino(m_currentMino);
+        m_hasHeld = false;
         generate();
     }
 
@@ -84,32 +100,33 @@ bool Tetris::update(uint8 action) {
 
 void Tetris::draw() const {
 
-    m_stage.draw(0, 0, Scene::Height() / 2, Scene::Height(), 1.0);
+    m_stage.draw(100, 0, Scene::Height() / 2, Scene::Height(), 1.0);
 
     drawGhostMino();
 
-    m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), m_currentMino);
+    m_stage.drawMinoOnStage(100, 0, Scene::Height() / 2, Scene::Height(), m_currentMino);
 
     int32 y = 0;
     for (auto nextMino : m_nextMinos) {
-        nextMino.draw({ Scene::Height() / 2 + 70 , 10 + 80 * y}, {70, 70});
+        nextMino.draw({ 100 + Scene::Height() / 2 + 70 , 10 + 80 * y}, {70, 70});
         y++;
     }
 
+    if (m_holdMino) m_holdMino.value().draw({ 20, 20 }, { 70, 70 });
 }
 
 void Tetris::drawMino(const Mino& mino, const double opacity) const {
-    m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), mino, opacity);
+    m_stage.drawMinoOnStage(100, 0, Scene::Height() / 2, Scene::Height(), mino, opacity);
 }
 
 void Tetris::drawMino(const Mino& mino, const Color color) const {
-    m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), mino, color);
+    m_stage.drawMinoOnStage(100, 0, Scene::Height() / 2, Scene::Height(), mino, color);
 }
 
 void Tetris::drawGhostMino() const {
     for (int32 y = 0; ; y++) {
         if (m_stage.isHit(m_currentMino.moved(0, y + 1))) {
-            m_stage.drawMinoOnStage(0, 0, Scene::Height() / 2, Scene::Height(), m_currentMino.moved(0, y), 0.3);
+            m_stage.drawMinoOnStage(100, 0, Scene::Height() / 2, Scene::Height(), m_currentMino.moved(0, y), 0.3);
             break;
         }
     }
@@ -119,7 +136,7 @@ void Tetris::generate() {
 
     m_currentMino = m_nextMinos.front();
     m_nextMinos.pop_front();
-    m_nextMinos.push_back(m_bag.get());
+    if (m_nextMinos.size() < 6) m_nextMinos.push_back(m_bag.get());
 
     if (m_stage.isHit(m_currentMino)) {
         // gameover

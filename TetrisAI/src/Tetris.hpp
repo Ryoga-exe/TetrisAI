@@ -40,8 +40,10 @@ private:
 private:
     Stage m_stage;
     Mino m_currentMino;
+    Optional<Mino> m_holdMino;
     std::list<Mino> m_nextMinos;
 
+    bool m_hasHeld;
     Bag m_bag;
 
     int32 m_score;
