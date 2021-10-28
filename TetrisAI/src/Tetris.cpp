@@ -113,8 +113,6 @@ void Tetris::draw() const {
 
     m_stage.draw(100, 0, Scene::Height() / 2, Scene::Height(), 1.0);
 
-    // drawGhostMino();
-
     int32 y = 0;
     for (auto nextMino : m_nextMinos) {
         nextMino.draw({ 100 + Scene::Height() / 2 + 70 , 10 + 80 * y}, {70, 70});

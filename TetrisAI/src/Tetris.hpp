@@ -27,14 +27,14 @@ public:
     void addDrawMino(const Mino& mino, const double opacity = 1.0);
     void addDrawMino(const Mino& mino, const Color color);
 
-    Stage getStage() {
+    Stage& getStage() {
         return m_stage;
     }
     Array<Mino> getAllPlaceable();
-    Array<std::pair<Mino, String>> getAllPlaceableAndOperation();
 
 private:
     void generate();
+    bool hasTSpined();
 
 private:
     Stage m_stage;
