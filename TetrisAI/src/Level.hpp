@@ -39,6 +39,8 @@ public:
         return m_level;
     }
 
+    static constexpr int32 MAX_SPEED_LEVEL = 20;
+
 private:
     int32 m_level;
     int32 m_deletedLineNum;

@@ -32,7 +32,6 @@ bool Tetris::update(uint8 action) {
     Print << m_level.level();
     Print << m_level.interval();
 
-
     m_stage.update();
 
     int8 rotatedPoint = -1;
@@ -41,18 +40,27 @@ bool Tetris::update(uint8 action) {
         case Action::MoveLeft:
             if (!m_stage.isHit(m_currentMino.moved(-1, 0))) {
                 m_currentMino.move(-1, 0);
+                // Tspin = none
+                if (m_stage.isHit(m_currentMino.moved(0, 1))) {
+                    m_prevDownTime = m_stopwatch.elapsed();
+                }
+                m_lockdown++;
             }
-            m_lockdown++;
             break;
         case Action::MoveRight:
             if (!m_stage.isHit(m_currentMino.moved(1, 0))) {
                 m_currentMino.move(1, 0);
+                // Tspin = none
+                if (m_stage.isHit(m_currentMino.moved(0, 1))) {
+                    m_prevDownTime = m_stopwatch.elapsed();
+                }
+                m_lockdown++;
             }
-            m_lockdown++;
             break;
         case Action::SoftDrop:
             if (!m_stage.isHit(m_currentMino.moved(0, 1))) {
                 m_currentMino.move(0, 1);
+                m_prevDownTime = m_stopwatch.elapsed();
             }
             break;
         case Action::HardDrop:
@@ -94,6 +102,7 @@ bool Tetris::update(uint8 action) {
                 }
                 generate();
                 m_hasHeld = true;
+                m_prevDownTime = m_stopwatch.elapsed();
             }
             break;
         default:
@@ -102,8 +111,6 @@ bool Tetris::update(uint8 action) {
     }
 
     if (downMino()) {
-        m_stage.fixMino(m_currentMino);
-        m_hasHeld = false;
         generate();
     }
 
@@ -144,7 +151,7 @@ void Tetris::addDrawMino(const Mino& mino, const Color color) {
 }
 
 bool Tetris::downMino() {
-    if (m_level > 19) {
+    if (m_level >= Level::MAX_SPEED_LEVEL) {
         for (int32 y = 0; ; y++) {
             if (m_stage.isHit(m_currentMino.moved(0, y + 1))) {
                 m_currentMino.move(0, y);
@@ -169,40 +176,19 @@ bool Tetris::downMino() {
         m_lockdown.updateY(m_currentMino.position().y);
     }
 
-    /*
-    if (speedWaitMs + m_prevMinoDownTime <= (signed)m_gameTimer.Elapse()) {
-        m_prevMinoDownTime = m_gameTimer.Elapse();
-        if (!IsHit({ m_currentMinoPos.X, m_currentMinoPos.Y + 1 }, m_currentMino)) {
-            m_currentMinoPos.Y++; m_tSpinAct = NOTSPIN;
+    if (interval + m_prevDownTime <= m_stopwatch) {
+        m_prevDownTime = m_stopwatch.elapsed();
+        if (!m_stage.isHit(m_currentMino.moved(0, 1))) {
+            m_currentMino.move(0, 1);
+            // Tspin = none;
         }
         else {
-            FixMino();
-            m_isPerfect = false;
-            if (!DeleteLine()) {
-                if (m_tSpinAct != NOTSPIN) {
-                    m_isBack2Back = false;
-                    int addtion = (m_tSpinAct == SPIN ? 400 : 100) * m_currentLevel;
-                    if (m_actionNotification == TETRIS || (m_actionNotification >= T_SPIN && m_actionNotification <= T_SPIN_TRIPLE)) {
-                        m_isBack2Back = true;
-                        addtion += (int)addtion / 2;
-                    }
-                    m_actionNotification = (Actions)(T_SPIN + m_tSpinAct - 1);
-                    m_timeActionNotification = m_gameTimer.Elapse();
-                    m_score += addtion;
-                }
-                m_combo = -1;
-                MinoUpdate();
-                if (InitMinoPos()) {
-                    // GameOver
-                    return true;
-                }
-            }
-            m_lockDown.Init();
+            m_stage.fixMino(m_currentMino);
+            m_lockdown.init();
             m_hasHeld = false;
+            return true;
         }
     }
-    */
-
     return false;
 }
 
@@ -229,10 +215,20 @@ void Tetris::generate() {
 Array<Mino> Tetris::getAllPlaceable() {
     Array<Mino> ret;
 
+    Mino buf = m_currentMino;
+    if (m_level >= Level::MAX_SPEED_LEVEL) {
+        for (int32 y = 0; ; y++) {
+            if (m_stage.isHit(buf.moved(0, y + 1))) {
+                buf.move(0, y);
+                break;
+            }
+        }
+    }
+
     std::deque<Mino> que;
     HashSet<Vector3D<int32>> visited;
-    que.push_back(m_currentMino);
-    visited.insert(m_currentMino.asVec3());
+    que.push_back(buf);
+    visited.insert(buf.asVec3());
     
     while (!que.empty()) {
         Mino q = que.front();
