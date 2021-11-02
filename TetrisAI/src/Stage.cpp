@@ -115,7 +115,7 @@ Array<uint32> Stage::CompletedLines() const {
 }
 
 bool Stage::cleared() const {
-    return m_binaryStage.all([](int32 x) {return x == 0; });
+    return m_binaryStage.all([](int32 x) { return x == 0; });
 }
 
 int32 Stage::deleteCompletedLines() {
