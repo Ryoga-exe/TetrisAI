@@ -22,6 +22,7 @@ void Tetris::init() {
     m_stopwatch.restart();
     m_score = 0;
     m_isB2B = false;
+    m_combo = -1;
     m_prevDownTime = 0.0s;
     generate();
 }
@@ -35,6 +36,7 @@ bool Tetris::update(uint8 action) {
     Print << m_score;
     Print << static_cast<int32>(m_tspin);
     Print << m_isB2B;
+    Print << m_combo;
 
     m_stage.update();
 
@@ -230,9 +232,11 @@ void Tetris::deleteLines() {
             default: break;
             }
         }
+
         if (m_isB2B && b2b) {
             addition += addition / 2;                  // Action: Back to Back Bonus
         }
+        addition += 50 * (m_combo + 1) * m_level;
 
         m_score += addition;
         m_isB2B = b2b;
@@ -240,6 +244,7 @@ void Tetris::deleteLines() {
         m_level += m_stage.deleteCompletedLines();
 
         addition = 0;
+        m_combo++;
 
         if (m_stage.cleared()) {
             switch (completedLine) {
@@ -256,6 +261,8 @@ void Tetris::deleteLines() {
 
     }
     else {
+        m_combo = -1;
+
         if (m_tspin == SRS::TSpin::Mini) {
             m_score += 100 * m_level;                  // Action: Mini T-Spin
         }

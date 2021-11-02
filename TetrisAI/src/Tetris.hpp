@@ -54,6 +54,7 @@ private:
 
     int32 m_score;
     bool m_isB2B;
+    int32 m_combo;
     Duration m_prevDownTime;
     Stopwatch m_stopwatch;
 };
