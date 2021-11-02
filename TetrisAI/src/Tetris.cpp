@@ -19,8 +19,9 @@ void Tetris::init() {
     m_level.init();
     for (int32 i = 0; i < 6; i++) m_nextMinos.push_back(m_bag.get());
 
-    m_timer.restart();
+    m_stopwatch.restart();
     m_score = 0;
+    m_prevDownTime = 0.0s;
     generate();
 }
 
@@ -127,6 +128,7 @@ bool Tetris::update(uint8 action) {
     }
 
     m_lockdown.update();
+    downMino();
 
     return true;
 }
@@ -150,6 +152,34 @@ void Tetris::addDrawMino(const Mino& mino, const double opacity) {
 
 void Tetris::addDrawMino(const Mino& mino, const Color color) {
     m_stage.addDrawMino(mino, color);
+}
+
+void Tetris::downMino() {
+    if (m_level > 19) {
+        for (int32 y = 0; ; y++) {
+            if (m_stage.isHit(m_currentMino.moved(0, y + 1))) {
+                m_currentMino.move(0, y);
+                break;
+            }
+        }
+    }
+
+    Duration interval = m_level.interval();
+    if (m_stage.isHit(m_currentMino.moved(0, 1))) {
+        if (!m_lockdown) {
+            m_lockdown.set(m_currentMino.position().y);
+        }
+        if (m_lockdown) {
+            interval = 0.5s;
+            if (m_lockdown.changed()) m_prevDownTime = m_stopwatch.elapsed();
+            if (m_lockdown.oversteped()) interval = 0.0s;
+        }
+    }
+    
+    if (m_lockdown) {
+        m_lockdown.updateY(m_currentMino.position().y);
+    }
+
 }
 
 void Tetris::generate() {

@@ -50,5 +50,6 @@ private:
     Level m_level;
 
     int32 m_score;
-    Timer m_timer;
+    Duration m_prevDownTime;
+    Stopwatch m_stopwatch;
 };
