@@ -3,6 +3,8 @@
 #include "Block.hpp"
 #include "Mino.hpp"
 #include "Bag.hpp"
+#include "Lockdown.hpp"
+#include "Level.hpp"
 
 namespace Action {
     constexpr uint8
@@ -33,6 +35,7 @@ public:
     Array<Mino> getAllPlaceable();
 
 private:
+    void downMino();
     void generate();
 
 private:
@@ -43,7 +46,9 @@ private:
 
     bool m_hasHeld;
     Bag m_bag;
+    Lockdown m_lockdown;
+    Level m_level;
 
     int32 m_score;
-
+    Timer m_timer;
 };

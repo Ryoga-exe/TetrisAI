@@ -321,6 +321,8 @@
     <ClInclude Include="src\Block.hpp" />
     <ClInclude Include="src\Common.hpp" />
     <ClInclude Include="src\KeyConfig.hpp" />
+    <ClInclude Include="src\Level.hpp" />
+    <ClInclude Include="src\Lockdown.hpp" />
     <ClInclude Include="src\Mino.hpp" />
     <ClInclude Include="src\SRS.hpp" />
     <ClInclude Include="src\Stage.hpp" />

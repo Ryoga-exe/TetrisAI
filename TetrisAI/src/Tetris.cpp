@@ -15,13 +15,22 @@ void Tetris::init() {
     m_nextMinos.clear();
     m_holdMino.reset();
     m_hasHeld = false;
+    m_lockdown.init();
+    m_level.init();
     for (int32 i = 0; i < 6; i++) m_nextMinos.push_back(m_bag.get());
 
+    m_timer.restart();
     m_score = 0;
     generate();
 }
 
 bool Tetris::update(uint8 action) {
+
+    ClearPrint();
+    Print << m_level.deletedLineNum();
+    Print << m_level.level();
+    Print << m_level.interval();
+
 
     m_stage.update();
 
@@ -33,11 +42,13 @@ bool Tetris::update(uint8 action) {
             if (!m_stage.isHit(m_currentMino.moved(-1, 0))) {
                 m_currentMino.move(-1, 0);
             }
+            m_lockdown++;
             break;
         case Action::MoveRight:
             if (!m_stage.isHit(m_currentMino.moved(1, 0))) {
                 m_currentMino.move(1, 0);
             }
+            m_lockdown++;
             break;
         case Action::SoftDrop:
             if (!m_stage.isHit(m_currentMino.moved(0, 1))) {
@@ -62,6 +73,7 @@ bool Tetris::update(uint8 action) {
 
             if (rotatedPoint != -1) {
                 SRS::IsTSpined(m_stage, m_currentMino, rotatedPoint);
+                m_lockdown++;
             }
 
             break;
@@ -71,6 +83,7 @@ bool Tetris::update(uint8 action) {
 
             if (rotatedPoint != -1) {
                 SRS::IsTSpined(m_stage, m_currentMino, rotatedPoint);
+                m_lockdown++;
             }
 
             break;
@@ -79,13 +92,12 @@ bool Tetris::update(uint8 action) {
                 Mino buf = Mino(m_currentMino.type());
                 if (!m_holdMino) {
                     m_holdMino = buf;
-                    generate();
                 }
                 else {
                     m_nextMinos.push_front(*m_holdMino);
                     m_holdMino = buf;
-                    generate();
                 }
+                generate();
                 m_hasHeld = true;
             }
             break;
@@ -104,7 +116,7 @@ bool Tetris::update(uint8 action) {
         generate();
     }
 
-    m_stage.deleteCompletedLines();
+    m_level += m_stage.deleteCompletedLines();
 
     m_stage.addDrawMino(m_currentMino);
     for (int32 y = 0; ; y++) {
@@ -113,7 +125,8 @@ bool Tetris::update(uint8 action) {
             break;
         }
     }
-    
+
+    m_lockdown.update();
 
     return true;
 }
@@ -155,6 +168,8 @@ void Tetris::generate() {
         }
         else break;
     }
+
+    m_lockdown.init();
 }
 
 Array<Mino> Tetris::getAllPlaceable() {
@@ -208,7 +223,6 @@ Array<Mino> Tetris::getAllPlaceable() {
             visited.insert(rotatedCounterclockwise.asVec3());
         }
     }
-
 
     return ret;
 }
