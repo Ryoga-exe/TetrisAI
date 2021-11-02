@@ -62,7 +62,7 @@ bool Tetris::update(uint8 action) {
                     break;
                 }
             }
-            m_prevDownTime = m_stopwatch.elapsed() - m_level.interval();
+            m_prevDownTime = -m_level.interval();
             break;
         case Action::RotateClockwise:
             rotatedPoint = SRS::Rotate(m_stage, m_currentMino, true);
