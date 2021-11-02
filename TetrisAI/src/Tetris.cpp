@@ -35,7 +35,6 @@ bool Tetris::update(uint8 action) {
 
     m_stage.update();
 
-    bool isFixMino = false;
     int8 rotatedPoint = -1;
     for (uint8 i = 0; i < 8; i++) {
         switch (action & (1 << i)) {
@@ -63,7 +62,7 @@ bool Tetris::update(uint8 action) {
                     break;
                 }
             }
-            isFixMino = true;
+            m_prevDownTime = m_stopwatch.elapsed() - m_level.interval();
             break;
         case Action::RotateClockwise:
             rotatedPoint = SRS::Rotate(m_stage, m_currentMino, true);
@@ -100,13 +99,9 @@ bool Tetris::update(uint8 action) {
         default:
             break;
         }
-
-        if (isFixMino) {
-            break;
-        }
     }
 
-    if (isFixMino) {
+    if (downMino()) {
         m_stage.fixMino(m_currentMino);
         m_hasHeld = false;
         generate();
@@ -123,7 +118,6 @@ bool Tetris::update(uint8 action) {
     }
 
     m_lockdown.update();
-    downMino();
 
     return true;
 }
@@ -149,7 +143,7 @@ void Tetris::addDrawMino(const Mino& mino, const Color color) {
     m_stage.addDrawMino(mino, color);
 }
 
-void Tetris::downMino() {
+bool Tetris::downMino() {
     if (m_level > 19) {
         for (int32 y = 0; ; y++) {
             if (m_stage.isHit(m_currentMino.moved(0, y + 1))) {
@@ -175,6 +169,41 @@ void Tetris::downMino() {
         m_lockdown.updateY(m_currentMino.position().y);
     }
 
+    /*
+    if (speedWaitMs + m_prevMinoDownTime <= (signed)m_gameTimer.Elapse()) {
+        m_prevMinoDownTime = m_gameTimer.Elapse();
+        if (!IsHit({ m_currentMinoPos.X, m_currentMinoPos.Y + 1 }, m_currentMino)) {
+            m_currentMinoPos.Y++; m_tSpinAct = NOTSPIN;
+        }
+        else {
+            FixMino();
+            m_isPerfect = false;
+            if (!DeleteLine()) {
+                if (m_tSpinAct != NOTSPIN) {
+                    m_isBack2Back = false;
+                    int addtion = (m_tSpinAct == SPIN ? 400 : 100) * m_currentLevel;
+                    if (m_actionNotification == TETRIS || (m_actionNotification >= T_SPIN && m_actionNotification <= T_SPIN_TRIPLE)) {
+                        m_isBack2Back = true;
+                        addtion += (int)addtion / 2;
+                    }
+                    m_actionNotification = (Actions)(T_SPIN + m_tSpinAct - 1);
+                    m_timeActionNotification = m_gameTimer.Elapse();
+                    m_score += addtion;
+                }
+                m_combo = -1;
+                MinoUpdate();
+                if (InitMinoPos()) {
+                    // GameOver
+                    return true;
+                }
+            }
+            m_lockDown.Init();
+            m_hasHeld = false;
+        }
+    }
+    */
+
+    return false;
 }
 
 void Tetris::generate() {

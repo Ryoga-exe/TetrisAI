@@ -35,7 +35,7 @@ public:
     Array<Mino> getAllPlaceable();
 
 private:
-    void downMino();
+    bool downMino();
     void generate();
 
 private:
