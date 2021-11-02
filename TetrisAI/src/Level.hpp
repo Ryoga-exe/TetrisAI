@@ -15,7 +15,7 @@ public:
 
     Level& operator+=(const int32 r) {
         m_deletedLineNum += r;
-        int32 now = 1 + m_deletedLineNum / 15;
+        int32 now = 1 + m_deletedLineNum / LEVEL_UP_LINES;
         if (m_level < now) {
             m_level = now;
             m_interval = Duration(pow(0.8 - (m_level - 1) * 0.007, m_level - 1));
@@ -39,6 +39,7 @@ public:
         return m_level;
     }
 
+    static constexpr int32 LEVEL_UP_LINES = 15;
     static constexpr int32 MAX_SPEED_LEVEL = 20;
 
 private:
