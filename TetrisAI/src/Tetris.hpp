@@ -3,6 +3,7 @@
 #include "Block.hpp"
 #include "Mino.hpp"
 #include "Bag.hpp"
+#include "SRS.hpp"
 #include "Lockdown.hpp"
 #include "Level.hpp"
 
@@ -48,6 +49,7 @@ private:
     Bag m_bag;
     Lockdown m_lockdown;
     Level m_level;
+    SRS::TSpin m_tspin;
 
     int32 m_score;
     Duration m_prevDownTime;

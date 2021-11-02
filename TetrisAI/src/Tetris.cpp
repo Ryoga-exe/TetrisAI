@@ -1,5 +1,4 @@
 ﻿#include "Tetris.hpp"
-#include "SRS.hpp"
 
 Tetris::Tetris() {
     init();
@@ -19,6 +18,7 @@ void Tetris::init() {
     m_level.init();
     for (int32 i = 0; i < 6; i++) m_nextMinos.push_back(m_bag.get());
 
+    m_tspin = SRS::TSpin::None;
     m_stopwatch.restart();
     m_score = 0;
     m_prevDownTime = 0.0s;
@@ -31,6 +31,8 @@ bool Tetris::update(uint8 action) {
     Print << m_level.deletedLineNum();
     Print << m_level.level();
     Print << m_level.interval();
+    Print << m_score;
+    Print << static_cast<int32>(m_tspin);
 
     m_stage.update();
 
@@ -40,7 +42,9 @@ bool Tetris::update(uint8 action) {
         case Action::MoveLeft:
             if (!m_stage.isHit(m_currentMino.moved(-1, 0))) {
                 m_currentMino.move(-1, 0);
-                // Tspin = none
+
+                m_tspin = SRS::TSpin::None;
+
                 if (m_stage.isHit(m_currentMino.moved(0, 1))) {
                     m_prevDownTime = m_stopwatch.elapsed();
                 }
@@ -50,7 +54,9 @@ bool Tetris::update(uint8 action) {
         case Action::MoveRight:
             if (!m_stage.isHit(m_currentMino.moved(1, 0))) {
                 m_currentMino.move(1, 0);
-                // Tspin = none
+
+                m_tspin = SRS::TSpin::None;
+
                 if (m_stage.isHit(m_currentMino.moved(0, 1))) {
                     m_prevDownTime = m_stopwatch.elapsed();
                 }
@@ -61,6 +67,10 @@ bool Tetris::update(uint8 action) {
             if (!m_stage.isHit(m_currentMino.moved(0, 1))) {
                 m_currentMino.move(0, 1);
                 m_prevDownTime = m_stopwatch.elapsed();
+
+                m_tspin = SRS::TSpin::None;
+
+                m_score++;
             }
             break;
         case Action::HardDrop:
@@ -69,6 +79,7 @@ bool Tetris::update(uint8 action) {
                     m_currentMino.move(0, y);
                     break;
                 }
+                m_score+=2;
             }
             m_prevDownTime = -m_level.interval();
             break;
@@ -76,7 +87,7 @@ bool Tetris::update(uint8 action) {
             rotatedPoint = SRS::Rotate(m_stage, m_currentMino, true);
 
             if (rotatedPoint != -1) {
-                SRS::IsTSpined(m_stage, m_currentMino, rotatedPoint);
+                m_tspin = SRS::IsTSpined(m_stage, m_currentMino, rotatedPoint);
                 m_lockdown++;
             }
 
@@ -85,7 +96,7 @@ bool Tetris::update(uint8 action) {
             rotatedPoint = SRS::Rotate(m_stage, m_currentMino, false);
             
             if (rotatedPoint != -1) {
-                SRS::IsTSpined(m_stage, m_currentMino, rotatedPoint);
+                m_tspin = SRS::IsTSpined(m_stage, m_currentMino, rotatedPoint);
                 m_lockdown++;
             }
 
@@ -114,7 +125,20 @@ bool Tetris::update(uint8 action) {
         generate();
     }
 
-    m_level += m_stage.deleteCompletedLines();
+    int32 completedLine = m_stage.countCompletedLines();
+    if (completedLine > 0) {
+        switch (completedLine) {
+        case 1: m_score += 100 * m_level; break;
+        case 2: m_score += 300 * m_level; break;
+        case 3: m_score += 500 * m_level; break;
+        case 4: m_score += 800 * m_level; break;
+        default: break;
+        }
+        m_level += m_stage.deleteCompletedLines();
+    }
+    else {
+        // TSpin Mini
+    }
 
     m_stage.addDrawMino(m_currentMino);
     for (int32 y = 0; ; y++) {
@@ -180,7 +204,7 @@ bool Tetris::downMino() {
         m_prevDownTime = m_stopwatch.elapsed();
         if (!m_stage.isHit(m_currentMino.moved(0, 1))) {
             m_currentMino.move(0, 1);
-            // Tspin = none;
+            m_tspin = SRS::TSpin::None;
         }
         else {
             m_stage.fixMino(m_currentMino);
