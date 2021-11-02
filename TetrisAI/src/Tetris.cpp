@@ -55,9 +55,6 @@ bool Tetris::update(uint8 action) {
             if (!m_stage.isHit(m_currentMino.moved(0, 1))) {
                 m_currentMino.move(0, 1);
             }
-            else {
-                // isFixMino = true;
-            }
             break;
         case Action::HardDrop:
             for (int32 y = 0; ; y++) {
@@ -70,7 +67,6 @@ bool Tetris::update(uint8 action) {
             break;
         case Action::RotateClockwise:
             rotatedPoint = SRS::Rotate(m_stage, m_currentMino, true);
-            // true なら lockDown を加算
 
             if (rotatedPoint != -1) {
                 SRS::IsTSpined(m_stage, m_currentMino, rotatedPoint);
@@ -80,8 +76,7 @@ bool Tetris::update(uint8 action) {
             break;
         case Action::RotateCounterclockwise:
             rotatedPoint = SRS::Rotate(m_stage, m_currentMino, false);
-            // true なら lockDown を加算
-
+            
             if (rotatedPoint != -1) {
                 SRS::IsTSpined(m_stage, m_currentMino, rotatedPoint);
                 m_lockdown++;
