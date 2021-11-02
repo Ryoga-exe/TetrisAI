@@ -70,16 +70,16 @@ bool Tetris::update(uint8 action) {
 
                 m_tspin = SRS::TSpin::None;
 
-                m_score++;
+                m_score++;  // Action: Soft Drop
             }
             break;
         case Action::HardDrop:
             for (int32 y = 0; ; y++) {
-                if (m_stage.isHit(m_currentMino.moved(0, y+1))) {
+                if (m_stage.isHit(m_currentMino.moved(0, y + 1))) {
                     m_currentMino.move(0, y);
                     break;
                 }
-                m_score+=2;
+                m_score += 2; // Action: Hard Drop
             }
             m_prevDownTime = -m_level.interval();
             break;
@@ -94,7 +94,7 @@ bool Tetris::update(uint8 action) {
             break;
         case Action::RotateCounterclockwise:
             rotatedPoint = SRS::Rotate(m_stage, m_currentMino, false);
-            
+
             if (rotatedPoint != -1) {
                 m_tspin = SRS::IsTSpined(m_stage, m_currentMino, rotatedPoint);
                 m_lockdown++;
@@ -122,22 +122,40 @@ bool Tetris::update(uint8 action) {
     }
 
     if (downMino()) {
-        generate();
-    }
-
-    int32 completedLine = m_stage.countCompletedLines();
-    if (completedLine > 0) {
-        switch (completedLine) {
-        case 1: m_score += 100 * m_level; break;
-        case 2: m_score += 300 * m_level; break;
-        case 3: m_score += 500 * m_level; break;
-        case 4: m_score += 800 * m_level; break;
-        default: break;
+        int32 completedLine = m_stage.countCompletedLines();
+        if (completedLine > 0) {
+            if (m_tspin == SRS::TSpin::None) {
+                switch (completedLine) {
+                case 1: m_score += 100 * m_level; break;  // Action: Single
+                case 2: m_score += 300 * m_level; break;  // Action: Double
+                case 3: m_score += 500 * m_level; break;  // Action: Triple
+                case 4: m_score += 800 * m_level; break;  // Action: Tetris
+                default: break;
+                }
+            }
+            else if (m_tspin == SRS::TSpin::Mini) {
+                m_score += 200 * m_level;                 // Action: Mini T-Spin Single
+            }
+            else {
+                switch (completedLine) {
+                case 1: m_score += 800  * m_level; break; // Action: T-Spin Single
+                case 2: m_score += 1200 * m_level; break; // Action: T-Spin Double
+                case 3: m_score += 1600 * m_level; break; // Action: T-Spin Triple
+                default: break;
+                }
+            }
+            m_level += m_stage.deleteCompletedLines();
         }
-        m_level += m_stage.deleteCompletedLines();
-    }
-    else {
-        // TSpin Mini
+        else {
+            if (m_tspin == SRS::TSpin::Mini) {
+                m_score += 100 * m_level;                 // Action: Mini T-Spin
+            }
+            else if (m_tspin == SRS::TSpin::TSpin) {
+                m_score += 400 * m_level;                 // Action: T-Spin
+            }
+        }
+
+        generate();
     }
 
     m_stage.addDrawMino(m_currentMino);
@@ -234,6 +252,7 @@ void Tetris::generate() {
     }
 
     m_lockdown.init();
+    m_tspin = SRS::TSpin::None;
 }
 
 Array<Mino> Tetris::getAllPlaceable() {
