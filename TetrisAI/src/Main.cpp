@@ -3,6 +3,8 @@
 #include "KeyConfig.hpp"
 
 void Main() {
+    Graphics::SetVSyncEnabled(false);
+
     Tetris tetris;
     KeyConfig keycon;
     int32 index = 0;
