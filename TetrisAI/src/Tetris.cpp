@@ -21,6 +21,7 @@ void Tetris::init() {
     m_tspin = SRS::TSpin::None;
     m_stopwatch.restart();
     m_score = 0;
+    m_isB2B = false;
     m_prevDownTime = 0.0s;
     generate();
 }
@@ -33,6 +34,7 @@ bool Tetris::update(uint8 action) {
     Print << m_level.interval();
     Print << m_score;
     Print << static_cast<int32>(m_tspin);
+    Print << m_isB2B;
 
     m_stage.update();
 
@@ -122,39 +124,7 @@ bool Tetris::update(uint8 action) {
     }
 
     if (downMino()) {
-        int32 completedLine = m_stage.countCompletedLines();
-        if (completedLine > 0) {
-            if (m_tspin == SRS::TSpin::None) {
-                switch (completedLine) {
-                case 1: m_score += 100 * m_level; break;  // Action: Single
-                case 2: m_score += 300 * m_level; break;  // Action: Double
-                case 3: m_score += 500 * m_level; break;  // Action: Triple
-                case 4: m_score += 800 * m_level; break;  // Action: Tetris
-                default: break;
-                }
-            }
-            else if (m_tspin == SRS::TSpin::Mini) {
-                m_score += 200 * m_level;                 // Action: Mini T-Spin Single
-            }
-            else {
-                switch (completedLine) {
-                case 1: m_score += 800  * m_level; break; // Action: T-Spin Single
-                case 2: m_score += 1200 * m_level; break; // Action: T-Spin Double
-                case 3: m_score += 1600 * m_level; break; // Action: T-Spin Triple
-                default: break;
-                }
-            }
-            m_level += m_stage.deleteCompletedLines();
-        }
-        else {
-            if (m_tspin == SRS::TSpin::Mini) {
-                m_score += 100 * m_level;                 // Action: Mini T-Spin
-            }
-            else if (m_tspin == SRS::TSpin::TSpin) {
-                m_score += 400 * m_level;                 // Action: T-Spin
-            }
-        }
-
+        deleteLines();
         generate();
     }
 
@@ -232,6 +202,51 @@ bool Tetris::downMino() {
         }
     }
     return false;
+}
+
+void Tetris::deleteLines() {
+    int32 completedLine = m_stage.countCompletedLines();
+    if (completedLine > 0) {
+        int32 addition = 0;
+        bool b2b = true;
+        if (m_tspin == SRS::TSpin::None) {
+            if (completedLine != 4) b2b = false;
+            switch (completedLine) {
+            case 1: addition +=  100 * m_level; break; // Action: Single
+            case 2: addition +=  300 * m_level; break; // Action: Double
+            case 3: addition +=  500 * m_level; break; // Action: Triple
+            case 4: addition +=  800 * m_level; break; // Action: Tetris
+            default: break;
+            }
+        }
+        else if (m_tspin == SRS::TSpin::Mini) {
+            addition += 200 * m_level;                 // Action: Mini T-Spin Single
+        }
+        else {
+            switch (addition) {
+            case 1: addition +=  800 * m_level; break; // Action: T-Spin Single
+            case 2: addition += 1200 * m_level; break; // Action: T-Spin Double
+            case 3: addition += 1600 * m_level; break; // Action: T-Spin Triple
+            default: break;
+            }
+        }
+        if (m_isB2B && b2b) {
+            addition += addition / 2;                  // Action: Back to Back Bonus
+        }
+
+        m_score += addition;
+        m_isB2B = b2b;
+
+        m_level += m_stage.deleteCompletedLines();
+    }
+    else {
+        if (m_tspin == SRS::TSpin::Mini) {
+            m_score += 100 * m_level;                  // Action: Mini T-Spin
+        }
+        else if (m_tspin == SRS::TSpin::TSpin) {
+            m_score += 400 * m_level;                  // Action: T-Spin
+        }
+    }
 }
 
 void Tetris::generate() {

@@ -37,6 +37,7 @@ public:
 
 private:
     bool downMino();
+    void deleteLines();
     void generate();
 
 private:
@@ -52,6 +53,7 @@ private:
     SRS::TSpin m_tspin;
 
     int32 m_score;
+    bool m_isB2B;
     Duration m_prevDownTime;
     Stopwatch m_stopwatch;
 };
