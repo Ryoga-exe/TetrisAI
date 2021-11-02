@@ -212,21 +212,21 @@ void Tetris::deleteLines() {
         if (m_tspin == SRS::TSpin::None) {
             if (completedLine != 4) b2b = false;
             switch (completedLine) {
-            case 1: addition +=  100 * m_level; break; // Action: Single
-            case 2: addition +=  300 * m_level; break; // Action: Double
-            case 3: addition +=  500 * m_level; break; // Action: Triple
-            case 4: addition +=  800 * m_level; break; // Action: Tetris
+            case 1: addition =  100 * m_level; break; // Action: Single
+            case 2: addition =  300 * m_level; break; // Action: Double
+            case 3: addition =  500 * m_level; break; // Action: Triple
+            case 4: addition =  800 * m_level; break; // Action: Tetris
             default: break;
             }
         }
         else if (m_tspin == SRS::TSpin::Mini) {
-            addition += 200 * m_level;                 // Action: Mini T-Spin Single
+            addition = 200 * m_level;                 // Action: Mini T-Spin Single
         }
         else {
             switch (addition) {
-            case 1: addition +=  800 * m_level; break; // Action: T-Spin Single
-            case 2: addition += 1200 * m_level; break; // Action: T-Spin Double
-            case 3: addition += 1600 * m_level; break; // Action: T-Spin Triple
+            case 1: addition =  800 * m_level; break; // Action: T-Spin Single
+            case 2: addition = 1200 * m_level; break; // Action: T-Spin Double
+            case 3: addition = 1600 * m_level; break; // Action: T-Spin Triple
             default: break;
             }
         }
@@ -238,6 +238,22 @@ void Tetris::deleteLines() {
         m_isB2B = b2b;
 
         m_level += m_stage.deleteCompletedLines();
+
+        addition = 0;
+
+        if (m_stage.cleared()) {
+            switch (completedLine) {
+            case 1: addition = 800  * m_level; break; // Action: Single-line Perfect Clear
+            case 2: addition = 1200 * m_level; break; // Action: Double-line Perfect Clear
+            case 3: addition = 1800 * m_level; break; // Action: Triple-line Perfect Clear
+            case 4: addition = 2000 * m_level; break; // Action: Tetris Perfect Clear
+            default: break;
+            }
+            if (completedLine == 4 && m_isB2B) {
+                addition = 3200 * m_level;            // Action: Back-to-back Tetris Perfect Clear
+            }
+        }
+
     }
     else {
         if (m_tspin == SRS::TSpin::Mini) {
