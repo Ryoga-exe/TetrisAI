@@ -15,7 +15,8 @@ public:
 
     void set(int32 y) {
         m_isLockdown = true;
-        m_count = m_prevCount = 0;
+        m_count = 0;
+        m_prevCount = 0;
         m_maxY = y;
     }
 
@@ -44,6 +45,10 @@ public:
     Lockdown& operator++() {
         if (m_isLockdown) {
             ++m_count;
+        }
+        else {
+            m_isLockdown = true;
+            m_count = 1;
         }
         return *this;
     }
