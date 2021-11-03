@@ -211,6 +211,7 @@ bool Tetris::downMino() {
 void Tetris::deleteLines() {
     int32 completedLine = m_stage.countCompletedLines();
     String action = U"";
+    bool b2bText = false;
     if (completedLine > 0) {
         int32 addition = 0;
         bool b2b = true;
@@ -238,7 +239,9 @@ void Tetris::deleteLines() {
 
         if (m_isB2B && b2b) {
             addition += addition / 2;                  // Action: Back to Back Bonus
-            action += U"\nBack to Back";
+            // action += U"\nBack to Back";
+            b2bText = true;
+
         }
         addition += 50 * (m_combo + 1) * m_level;
 
@@ -278,10 +281,12 @@ void Tetris::deleteLines() {
     }
 
     Vec2 pos;
-    pos = Vec2{ Scene::Height() / 2 / Stage::Width, Scene::Height() / Stage::Height } * m_currentMino.position();
+    pos = Vec2{ Scene::Height() / 4, Scene::Height() / Stage::Height * m_currentMino.position().y };
     pos += Vec2{ 100, 0 };
     m_effect.add<ActionEffect>(pos, action, m_effectFont);
-
+    if (b2bText) {
+        m_effect.add<ActionEffect>(pos.movedBy(0, 25), U"Back to Back", m_effectFont);
+    }
 }
 
 void Tetris::generate() {
