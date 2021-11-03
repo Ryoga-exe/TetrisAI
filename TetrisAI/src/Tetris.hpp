@@ -18,6 +18,24 @@ namespace Action {
         Hold                   = 1 << 6;
 }
 
+struct ActionEffect : IEffect {
+    Vec2 m_start;
+    String m_action;
+    Font m_font;
+
+    ActionEffect(const Vec2& start, String action, const Font& font)
+        : m_start{ start }, m_action{ action }, m_font{ font } {}
+
+    bool update(double t) override {
+        const double e = EaseOutExpo(t);
+
+        m_font(m_action).drawAt(m_start.movedBy(0, -40 * e).movedBy(4, 4), ColorF(0.0, 0.5 * (1.0 - t)));
+        m_font(m_action).drawAt(m_start.movedBy(0, -40 * e), ColorF(Palette::Whitesmoke, 1.0 - Max(0.0, 2.0 * t - 1.0)));
+
+        return (t < 1.0);
+    }
+};
+
 class Tetris {
 public:
     Tetris();
@@ -57,4 +75,6 @@ private:
     int32 m_combo;
     Duration m_prevDownTime;
     Stopwatch m_stopwatch;
+    Effect m_effect;
+    Font m_effectFont;
 };

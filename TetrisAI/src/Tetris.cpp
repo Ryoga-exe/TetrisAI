@@ -1,6 +1,6 @@
 ﻿#include "Tetris.hpp"
 
-Tetris::Tetris() {
+Tetris::Tetris() : m_effectFont(20, Typeface::Bold) {
     init();
 }
 
@@ -154,6 +154,8 @@ void Tetris::draw() const {
     }
 
     if (m_holdMino) m_holdMino.value().draw({ 20, 20 }, { 70, 70 });
+
+    m_effect.update();
 }
 
 void Tetris::addDrawMino(const Mino& mino, const double opacity) {
@@ -208,33 +210,35 @@ bool Tetris::downMino() {
 
 void Tetris::deleteLines() {
     int32 completedLine = m_stage.countCompletedLines();
+    String action = U"";
     if (completedLine > 0) {
         int32 addition = 0;
         bool b2b = true;
         if (m_tspin == SRS::TSpin::None) {
             if (completedLine != 4) b2b = false;
             switch (completedLine) {
-            case 1: addition =  100 * m_level; break; // Action: Single
-            case 2: addition =  300 * m_level; break; // Action: Double
-            case 3: addition =  500 * m_level; break; // Action: Triple
-            case 4: addition =  800 * m_level; break; // Action: Tetris
+            case 1: addition = 100 * m_level; action = U"Single"; break; // Action: Single
+            case 2: addition = 300 * m_level; action = U"Double"; break; // Action: Double
+            case 3: addition = 500 * m_level; action = U"Triple"; break; // Action: Triple
+            case 4: addition = 800 * m_level; action = U"Tetris"; break; // Action: Tetris
             default: break;
             }
         }
         else if (m_tspin == SRS::TSpin::Mini) {
-            addition = 200 * m_level;                 // Action: Mini T-Spin Single
+            addition = 200 * m_level; action = U"Mini T-Spin Single";    // Action: Mini T-Spin Single
         }
         else {
             switch (addition) {
-            case 1: addition =  800 * m_level; break; // Action: T-Spin Single
-            case 2: addition = 1200 * m_level; break; // Action: T-Spin Double
-            case 3: addition = 1600 * m_level; break; // Action: T-Spin Triple
+            case 1: addition =  800 * m_level; action = U"T-Spin Single"; break; // Action: T-Spin Single
+            case 2: addition = 1200 * m_level; action = U"T-Spin Double"; break; // Action: T-Spin Double
+            case 3: addition = 1600 * m_level; action = U"T-Spin Triple"; break; // Action: T-Spin Triple
             default: break;
             }
         }
 
         if (m_isB2B && b2b) {
             addition += addition / 2;                  // Action: Back to Back Bonus
+            action += U"\nBack to Back";
         }
         addition += 50 * (m_combo + 1) * m_level;
 
@@ -265,11 +269,19 @@ void Tetris::deleteLines() {
 
         if (m_tspin == SRS::TSpin::Mini) {
             m_score += 100 * m_level;                  // Action: Mini T-Spin
+            action = U"Mini T-Spin";
         }
         else if (m_tspin == SRS::TSpin::TSpin) {
             m_score += 400 * m_level;                  // Action: T-Spin
+            action = U"T-Spin";
         }
     }
+
+    Vec2 pos;
+    pos = Vec2{ Scene::Height() / 2 / Stage::Width, Scene::Height() / Stage::Height } * m_currentMino.position();
+    pos += Vec2{ 100, 0 };
+    m_effect.add<ActionEffect>(pos, action, m_effectFont);
+
 }
 
 void Tetris::generate() {
