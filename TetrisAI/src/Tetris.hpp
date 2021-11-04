@@ -48,6 +48,10 @@ public:
     void addDrawMino(const Mino& mino, const double opacity = 1.0);
     void addDrawMino(const Mino& mino, const Color color);
 
+    bool gameover() const {
+        return m_isGameover;
+    }
+
     Stage& getStage() {
         return m_stage;
     }
@@ -72,6 +76,7 @@ private:
 
     int32 m_score;
     bool m_isB2B;
+    bool m_isGameover;
     int32 m_combo;
     Duration m_prevDownTime;
     Stopwatch m_stopwatch;

@@ -243,6 +243,7 @@ public:
         case J: ret = Palette::Blue; break;
         case L: ret = Palette::Orange; break;
         case T: ret = Palette::Blueviolet; break;
+        case Block: ret = Palette::Lightgray; break;
         }
         return ret;
     }

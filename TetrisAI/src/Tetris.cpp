@@ -22,6 +22,7 @@ void Tetris::init() {
     m_stopwatch.restart();
     m_score = 0;
     m_isB2B = false;
+    m_isGameover = false;
     m_combo = -1;
     m_prevDownTime = 0.0s;
     generate();
@@ -37,6 +38,7 @@ bool Tetris::update(uint8 action) {
     Print << static_cast<int32>(m_tspin);
     Print << m_isB2B;
     Print << m_combo;
+    Print << m_isGameover;
 
     m_stage.update();
 
@@ -297,6 +299,7 @@ void Tetris::generate() {
 
     if (m_stage.isHit(m_currentMino)) {
         // gameover
+        m_isGameover = true;
     }
 
     for (int32 i = 0; i < 2; i++) {
