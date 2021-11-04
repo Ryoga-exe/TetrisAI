@@ -1,6 +1,6 @@
 ﻿#include "Common.hpp"
 #include "Tetris.hpp"
-#include "KeyConfig.hpp"
+#include "KeyConfig/KeyConfig.hpp"
 
 void Main() {
     Graphics::SetVSyncEnabled(false);

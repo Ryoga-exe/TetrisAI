@@ -141,22 +141,22 @@
     <ClCompile Include="src\Tetris.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Stage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mino.cpp">
+    <ClCompile Include="src\SRS\SRS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Bag.cpp">
+    <ClCompile Include="src\Mino\Mino.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SRS.cpp">
+    <ClCompile Include="src\Bag\Bag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KeyConfig.cpp">
+    <ClCompile Include="src\KeyConfig\KeyConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Stage\Stage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -788,31 +788,31 @@
     <ClInclude Include="src\Tetris.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Stage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Block.hpp">
+    <ClInclude Include="src\SRS\SRS.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mino.hpp">
+    <ClInclude Include="src\Mino\Block.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Bag.hpp">
+    <ClInclude Include="src\Mino\Mino.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SRS.hpp">
+    <ClInclude Include="src\Bag\Bag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\KeyConfig.hpp">
+    <ClInclude Include="src\KeyConfig\KeyConfig.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Lockdown.hpp">
+    <ClInclude Include="src\Stage\Stage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Level.hpp">
+    <ClInclude Include="src\Utils\Level.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\Lockdown.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

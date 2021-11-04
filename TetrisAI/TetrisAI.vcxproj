@@ -74,6 +74,7 @@
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(ProjectDir)src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -100,6 +101,7 @@
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(ProjectDir)src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -113,12 +115,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Bag.cpp" />
-    <ClCompile Include="src\KeyConfig.cpp" />
+    <ClCompile Include="src\Bag\Bag.cpp" />
+    <ClCompile Include="src\KeyConfig\KeyConfig.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Mino.cpp" />
-    <ClCompile Include="src\SRS.cpp" />
-    <ClCompile Include="src\Stage.cpp" />
+    <ClCompile Include="src\Mino\Mino.cpp" />
+    <ClCompile Include="src\SRS\SRS.cpp" />
+    <ClCompile Include="src\Stage\Stage.cpp" />
     <ClCompile Include="src\Tetris.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -317,16 +319,16 @@
     <Xml Include="App\example\xml\test.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Bag.hpp" />
-    <ClInclude Include="src\Block.hpp" />
+    <ClInclude Include="src\Bag\Bag.hpp" />
     <ClInclude Include="src\Common.hpp" />
-    <ClInclude Include="src\KeyConfig.hpp" />
-    <ClInclude Include="src\Level.hpp" />
-    <ClInclude Include="src\Lockdown.hpp" />
-    <ClInclude Include="src\Mino.hpp" />
-    <ClInclude Include="src\SRS.hpp" />
-    <ClInclude Include="src\Stage.hpp" />
+    <ClInclude Include="src\KeyConfig\KeyConfig.hpp" />
+    <ClInclude Include="src\Mino\Block.hpp" />
+    <ClInclude Include="src\Mino\Mino.hpp" />
+    <ClInclude Include="src\SRS\SRS.hpp" />
+    <ClInclude Include="src\Stage\Stage.hpp" />
     <ClInclude Include="src\Tetris.hpp" />
+    <ClInclude Include="src\Utils\Level.hpp" />
+    <ClInclude Include="src\Utils\Lockdown.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

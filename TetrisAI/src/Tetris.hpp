@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "Stage.hpp"
-#include "Block.hpp"
-#include "Mino.hpp"
-#include "Bag.hpp"
-#include "SRS.hpp"
-#include "Lockdown.hpp"
-#include "Level.hpp"
+#include "Mino/Block.hpp"
+#include "Mino/Mino.hpp"
+#include "Stage/Stage.hpp"
+#include "Bag/Bag.hpp"
+#include "SRS/SRS.hpp"
+#include "Utils/Lockdown.hpp"
+#include "Utils/Level.hpp"
 
 namespace Action {
     constexpr uint8

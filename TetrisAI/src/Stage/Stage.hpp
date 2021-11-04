@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Common.hpp"
-#include "Block.hpp"
-#include "Mino.hpp"
+#include "Mino/Block.hpp"
+#include "Mino/Mino.hpp"
 
 class Stage {
 public:

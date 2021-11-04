@@ -1,6 +1,6 @@
 ﻿#include "Bag.hpp"
-#include "Block.hpp"
-#include "Mino.hpp"
+#include "Mino/Block.hpp"
+#include "Mino/Mino.hpp"
 
 Bag::Bag() {
     set();

@@ -1,5 +1,5 @@
 ﻿#include "Mino.hpp"
-#include "Stage.hpp"
+#include "Stage/Stage.hpp"
 
 Mino::Mino()
     : m_type(0), m_angle(0) {
