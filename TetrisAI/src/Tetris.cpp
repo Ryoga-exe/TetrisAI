@@ -231,7 +231,7 @@ void Tetris::deleteLines() {
             addition = 200 * m_level; action = U"Mini T-Spin Single";    // Action: Mini T-Spin Single
         }
         else {
-            switch (addition) {
+            switch (completedLine) {
             case 1: addition =  800 * m_level; action = U"T-Spin Single"; break; // Action: T-Spin Single
             case 2: addition = 1200 * m_level; action = U"T-Spin Double"; break; // Action: T-Spin Double
             case 3: addition = 1600 * m_level; action = U"T-Spin Triple"; break; // Action: T-Spin Triple
