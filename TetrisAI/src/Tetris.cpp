@@ -287,7 +287,10 @@ void Tetris::deleteLines() {
     pos += Vec2{ 100, 0 };
     m_effect.add<ActionEffect>(pos, action, m_effectFont);
     if (b2bText) {
-        m_effect.add<ActionEffect>(pos.movedBy(0, 25), U"Back to Back", m_effectFont);
+        m_effect.add<ActionEffect>(pos.moveBy(0, 25), U"Back to Back", m_effectFont);
+    }
+    if (m_combo > 0) {
+        m_effect.add<ActionEffect>(pos.moveBy(0, 25), U"{} REN"_fmt(m_combo), m_effectFont);
     }
 }
 
