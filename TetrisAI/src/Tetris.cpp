@@ -109,7 +109,7 @@ bool Tetris::update(uint8 action) {
             break;
         case Action::Hold:
             if (!m_hasHeld) {
-                Mino buf = Mino(m_currentMino.type());
+                Tetrimino buf = Tetrimino(m_currentMino.type());
                 if (!m_holdMino) {
                     m_holdMino = buf;
                 }
@@ -160,11 +160,11 @@ void Tetris::draw() const {
     m_effect.update();
 }
 
-void Tetris::addDrawMino(const Mino& mino, const double opacity) {
+void Tetris::addDrawMino(const Tetrimino& mino, const double opacity) {
     m_stage.addDrawMino(mino, opacity);
 }
 
-void Tetris::addDrawMino(const Mino& mino, const Color color) {
+void Tetris::addDrawMino(const Tetrimino& mino, const Color color) {
     m_stage.addDrawMino(mino, color);
 }
 
@@ -313,10 +313,10 @@ void Tetris::generate() {
     m_tspin = SRS::TSpin::None;
 }
 
-Array<Mino> Tetris::getAllPlaceable() {
-    Array<Mino> ret;
+Array<Tetrimino> Tetris::getAllPlaceable() {
+    Array<Tetrimino> ret;
 
-    Mino buf = m_currentMino;
+    Tetrimino buf = m_currentMino;
     if (m_level >= Level::MAX_SPEED_LEVEL) {
         for (int32 y = 0; ; y++) {
             if (m_stage.isHit(buf.moved(0, y + 1))) {
@@ -326,13 +326,13 @@ Array<Mino> Tetris::getAllPlaceable() {
         }
     }
 
-    std::deque<Mino> que;
+    std::deque<Tetrimino> que;
     HashSet<Vector3D<int32>> visited;
     que.push_back(buf);
     visited.insert(buf.asVec3());
     
     while (!que.empty()) {
-        Mino q = que.front();
+        Tetrimino q = que.front();
         que.pop_front();
 
         // Right
@@ -361,14 +361,14 @@ Array<Mino> Tetris::getAllPlaceable() {
             ret << q;
         }
         // Rotate clockwise
-        Mino rotatedClockwise = SRS::Rotated(m_stage, q, true);
+        Tetrimino rotatedClockwise = SRS::Rotated(m_stage, q, true);
         if (!visited.contains(rotatedClockwise.asVec3())) {
             que.push_back(rotatedClockwise);
             visited.insert(rotatedClockwise.asVec3());
         }
 
         // Rotate counterclockwise
-        Mino rotatedCounterclockwise = SRS::Rotated(m_stage, q, false);
+        Tetrimino rotatedCounterclockwise = SRS::Rotated(m_stage, q, false);
         if (!visited.contains(rotatedCounterclockwise.asVec3())) {
             que.push_back(rotatedCounterclockwise);
             visited.insert(rotatedCounterclockwise.asVec3());

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Common.hpp"
 #include "Mino/Block.hpp"
-#include "Mino/Mino.hpp"
+#include "Mino/Tetrimino.hpp"
 
 class Stage {
 public:
@@ -15,11 +15,11 @@ public:
     void draw(int x, int y, int w, int h, double gridSize = 0) const;
     void draw(Point v, Size s, double gridSize = 0) const;
 
-    void addDrawMino(const Mino& mino, double opacity = 1.0);
-    void addDrawMino(const Mino& mino, Color color);
+    void addDrawMino(const Tetrimino& mino, double opacity = 1.0);
+    void addDrawMino(const Tetrimino& mino, Color color);
 
-    void fixMino(const Mino& mino);
-    bool isHit(const Mino& mino) const;
+    void fixMino(const Tetrimino& mino);
+    bool isHit(const Tetrimino& mino) const;
 
     uint32 countCompletedLines() const;
     Array<uint32> CompletedLines() const;
@@ -32,7 +32,7 @@ public:
 private:
     Grid<Blocks> m_stage;
     Array<int32> m_binaryStage;
-    std::list<std::tuple<Mino, double, Optional<Color>>> m_minos;
+    std::list<std::tuple<Tetrimino, double, Optional<Color>>> m_minos;
 
 public:
     static constexpr uint32 Width = 10;

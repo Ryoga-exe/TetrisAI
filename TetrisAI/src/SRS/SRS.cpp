@@ -1,11 +1,11 @@
 ﻿#include "SRS.hpp"
 
 namespace SRS {
-    int8 Rotate(const Stage& stage, Mino& mino, const bool clockwise) {
+    int8 Rotate(const Stage& stage, Tetrimino& mino, const bool clockwise) {
         if (mino.type() == 1) return false; // O-mino
 
         for (int32 i = 0; i < SRSCheckNum; i++) {
-            Mino candidate = mino.rotated(clockwise).moved(SRSMovePos[mino.type() != 0][!clockwise][mino.angle()][i]);
+            Tetrimino candidate = mino.rotated(clockwise).moved(SRSMovePos[mino.type() != 0][!clockwise][mino.angle()][i]);
             if (!stage.isHit(candidate)) {
                 mino = candidate;
                 return (int8)i;
@@ -15,13 +15,13 @@ namespace SRS {
         return -1;
     }
 
-    Mino Rotated(const Stage& stage, const Mino& mino, const bool clockwise) {
-        Mino ret = mino;
+    Tetrimino Rotated(const Stage& stage, const Tetrimino& mino, const bool clockwise) {
+        Tetrimino ret = mino;
         Rotate(stage, ret, clockwise);
         return ret;
     }
 
-    TSpin IsTSpined(const Stage& stage, const Mino& mino, const int8 previousRotationPoint) {
+    TSpin IsTSpined(const Stage& stage, const Tetrimino& mino, const int8 previousRotationPoint) {
         if (mino.type() != 6) return TSpin::None;
 
         int8 unhitIndex = -1;

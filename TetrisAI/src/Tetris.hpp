@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Mino/Block.hpp"
-#include "Mino/Mino.hpp"
+#include "Mino/Tetrimino.hpp"
 #include "Stage/Stage.hpp"
 #include "Bag/Bag.hpp"
 #include "SRS/SRS.hpp"
@@ -45,8 +45,8 @@ public:
 
     bool update(uint8 action = 0);
     void draw() const;
-    void addDrawMino(const Mino& mino, const double opacity = 1.0);
-    void addDrawMino(const Mino& mino, const Color color);
+    void addDrawMino(const Tetrimino& mino, const double opacity = 1.0);
+    void addDrawMino(const Tetrimino& mino, const Color color);
 
     bool gameover() const {
         return m_isGameover;
@@ -55,7 +55,7 @@ public:
     Stage& getStage() {
         return m_stage;
     }
-    Array<Mino> getAllPlaceable();
+    Array<Tetrimino> getAllPlaceable();
 
 private:
     bool downMino();
@@ -64,9 +64,9 @@ private:
 
 private:
     Stage m_stage;
-    Mino m_currentMino;
-    Optional<Mino> m_holdMino;
-    std::list<Mino> m_nextMinos;
+    Tetrimino m_currentMino;
+    Optional<Tetrimino> m_holdMino;
+    std::list<Tetrimino> m_nextMinos;
 
     bool m_hasHeld;
     Bag m_bag;

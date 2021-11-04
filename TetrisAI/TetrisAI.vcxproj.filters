@@ -147,7 +147,7 @@
     <ClCompile Include="src\SRS\SRS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mino\Mino.cpp">
+    <ClCompile Include="src\Mino\Tetrimino.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Bag\Bag.cpp">
@@ -797,7 +797,7 @@
     <ClInclude Include="src\Mino\Block.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mino\Mino.hpp">
+    <ClInclude Include="src\Mino\Tetrimino.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Bag\Bag.hpp">

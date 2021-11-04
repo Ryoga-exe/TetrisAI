@@ -40,20 +40,20 @@ void Stage::draw(Point v, Size s, double gridSize) const {
 
     for (int32 y = Height - Skyline; y < Height; y++) {
         for (int32 x = 0; x < Width; x++) {
-            if (m_stage[y][x] != Blocks::Air) RectF(width * x, height * (y - (Height - Skyline)), width, height).moveBy(v).draw(Mino::GetColor(m_stage[y][x]));
+            if (m_stage[y][x] != Blocks::Air) RectF(width * x, height * (y - (Height - Skyline)), width, height).moveBy(v).draw(Tetrimino::GetColor(m_stage[y][x]));
         }
     }
 
     for (auto [mino, opacity, color] : m_minos) {
-        for (int32 y = 0; y < Mino::Size; y++) {
-            for (int32 x = 0; x < Mino::Size; x++) {
-                Blocks piece = Mino::Shapes[mino.type()][mino.angle()][y][x];
+        for (int32 y = 0; y < Tetrimino::Size; y++) {
+            for (int32 x = 0; x < Tetrimino::Size; x++) {
+                Blocks piece = Tetrimino::Shapes[mino.type()][mino.angle()][y][x];
                 if (piece != Blocks::Air) {
                     auto [mx, my] = mino.position();
                     mx += x;
                     my += y;
                     if ((mx >= 0 && mx < Width) && (my >= 0 && my < Height)) {
-                        RectF(width * mx, height * (my - (Height - Skyline)), width, height).moveBy(v).draw(ColorF(color ? color.value() : Mino::GetColor(piece), opacity));
+                        RectF(width * mx, height * (my - (Height - Skyline)), width, height).moveBy(v).draw(ColorF(color ? color.value() : Tetrimino::GetColor(piece), opacity));
                     }
                 }
             }
@@ -61,17 +61,17 @@ void Stage::draw(Point v, Size s, double gridSize) const {
     }
 }
 
-void Stage::addDrawMino(const Mino& mino, double opacity) {
+void Stage::addDrawMino(const Tetrimino& mino, double opacity) {
     m_minos.push_back({ mino, opacity, Optional<Color>() });
 }
-void Stage::addDrawMino(const Mino& mino, Color color) {
+void Stage::addDrawMino(const Tetrimino& mino, Color color) {
     m_minos.push_back({ mino, 1.0, color });
 }
 
-void Stage::fixMino(const Mino& mino) {
-    for (int32 y = 0; y < Mino::Size; y++) {
-        for (int32 x = 0; x < Mino::Size; x++) {
-            Blocks piece = Mino::Shapes[mino.type()][mino.angle()][y][x];
+void Stage::fixMino(const Tetrimino& mino) {
+    for (int32 y = 0; y < Tetrimino::Size; y++) {
+        for (int32 x = 0; x < Tetrimino::Size; x++) {
+            Blocks piece = Tetrimino::Shapes[mino.type()][mino.angle()][y][x];
             if (piece != Blocks::Air) {
                 auto [mx, my] = mino.position();
                 mx += x;
@@ -85,10 +85,10 @@ void Stage::fixMino(const Mino& mino) {
     }
 }
 
-bool Stage::isHit(const Mino& mino) const {
-    for (int32 y = 0; y < Mino::Size; y++) {
-        for (int32 x = 0; x < Mino::Size; x++) {
-            if (Mino::Shapes[mino.type()][mino.angle()][y][x] != Blocks::Air) {
+bool Stage::isHit(const Tetrimino& mino) const {
+    for (int32 y = 0; y < Tetrimino::Size; y++) {
+        for (int32 x = 0; x < Tetrimino::Size; x++) {
+            if (Tetrimino::Shapes[mino.type()][mino.angle()][y][x] != Blocks::Air) {
                 auto [mx, my] = mino.position();
                 mx += x;
                 my += y;

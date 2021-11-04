@@ -118,7 +118,7 @@
     <ClCompile Include="src\Bag\Bag.cpp" />
     <ClCompile Include="src\KeyConfig\KeyConfig.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Mino\Mino.cpp" />
+    <ClCompile Include="src\Mino\Tetrimino.cpp" />
     <ClCompile Include="src\SRS\SRS.cpp" />
     <ClCompile Include="src\Stage\Stage.cpp" />
     <ClCompile Include="src\Tetris.cpp" />
@@ -323,7 +323,7 @@
     <ClInclude Include="src\Common.hpp" />
     <ClInclude Include="src\KeyConfig\KeyConfig.hpp" />
     <ClInclude Include="src\Mino\Block.hpp" />
-    <ClInclude Include="src\Mino\Mino.hpp" />
+    <ClInclude Include="src\Mino\Tetrimino.hpp" />
     <ClInclude Include="src\SRS\SRS.hpp" />
     <ClInclude Include="src\Stage\Stage.hpp" />
     <ClInclude Include="src\Tetris.hpp" />

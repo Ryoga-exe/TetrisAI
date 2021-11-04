@@ -2,27 +2,27 @@
 #include "Common.hpp"
 #include "Block.hpp"
 
-class Mino {
+class Tetrimino {
 public:
-    Mino();
-    Mino(uint32 type, uint32 angle = 0);
-    Mino(uint32 type, uint32 angle, Point pos);
+    Tetrimino();
+    Tetrimino(uint32 type, uint32 angle = 0);
+    Tetrimino(uint32 type, uint32 angle, Point pos);
 
-    ~Mino();
+    ~Tetrimino();
 
     void draw(const Point v, const Size s) const;
 
     void move(const int32 x, const int32 y);
     void move(const Point diff);
-    Mino moved(const int32 x, const int32 y) const;
-    Mino moved(const Point diff) const;
+    Tetrimino moved(const int32 x, const int32 y) const;
+    Tetrimino moved(const Point diff) const;
     void moveTo(const int32 x, const int32 y);
     void moveTo(const Point to);
-    Mino movedTo(const int32 x, const int32 y) const;
-    Mino movedTo(const Point to) const;
+    Tetrimino movedTo(const int32 x, const int32 y) const;
+    Tetrimino movedTo(const Point to) const;
 
     void rotate(bool clockwise);
-    Mino rotated(bool clockwise) const;
+    Tetrimino rotated(bool clockwise) const;
 
     Point position() const;
     uint32 type() const;
@@ -34,8 +34,8 @@ public:
         return Vector4D<int32>{ m_type, m_pos.x, m_pos.y, m_angle };
     }
 
-    Mino operator =(const Mino& mino);
-    bool operator ==(const Mino& r) const {
+    Tetrimino operator =(const Tetrimino& mino);
+    bool operator ==(const Tetrimino& r) const {
         return (m_type == r.m_type) && (m_pos == r.m_pos) && (m_angle == r.m_angle);
     }
 
