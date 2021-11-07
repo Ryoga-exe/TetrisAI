@@ -30,17 +30,11 @@ void Tetris::init() {
 
 bool Tetris::update(uint8 action) {
 
-    ClearPrint();
-    Print << m_level.deletedLineNum();
-    Print << m_level.level();
-    Print << m_level.interval();
-    Print << m_score;
-    Print << static_cast<int32>(m_tspin);
-    Print << m_isB2B;
-    Print << m_combo;
-    Print << m_isGameover;
-
     m_stage.update();
+
+    if (m_isGameover) {
+        return false;
+    }
 
     int8 rotatedPoint = -1;
     for (uint8 i = 0; i < 8; i++) {
