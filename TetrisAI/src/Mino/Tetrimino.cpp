@@ -19,7 +19,7 @@ Tetrimino::~Tetrimino() {
 
 }
 
-void Tetrimino::draw(const Point v, const ::Size s) const {
+void Tetrimino::draw(const Point v, const ::Size s, const Optional<Color> color) const {
     const float width = (float)s.x / Tetrimino::Size;
     const float height = (float)s.y / Tetrimino::Size;
 
@@ -28,11 +28,12 @@ void Tetrimino::draw(const Point v, const ::Size s) const {
     for (int32 y = 0; y < Tetrimino::Size; y++) {
         for (int32 x = 0; x < Tetrimino::Size; x++) {
             if (Tetrimino::Shapes[m_type][m_angle][y][x] != Blocks::Air) {
-                RectF(width * x, height * y, width, height).moveBy(v).draw(Tetrimino::GetColor(Tetrimino::Shapes[m_type][m_angle][y][x]));
+                RectF(width * x, height * y, width, height).moveBy(v).draw(color ? color.value() : GetColor(Tetrimino::Shapes[m_type][m_angle][y][x]));
             }
         }
     }
 }
+
 
 void Tetrimino::move(const int32 x, const int32 y) {
     move(Point{ x, y });

@@ -149,7 +149,14 @@ void Tetris::draw() const {
         y++;
     }
 
-    if (m_holdMino) m_holdMino.value().draw({ 20, 20 }, { 70, 70 });
+    if (m_holdMino) {
+        if (m_hasHeld) {
+            m_holdMino.value().draw({ 20, 20 }, { 70, 70 }, Palette::Lightgray);
+        }
+        else {
+            m_holdMino.value().draw({ 20, 20 }, { 70, 70 });
+        }
+    }
 
     m_effect.update();
 }

@@ -10,7 +10,7 @@ public:
 
     ~Tetrimino();
 
-    void draw(const Point v, const Size s) const;
+    void draw(const Point v, const Size s, const Optional<Color> color = none) const;
 
     void move(const int32 x, const int32 y);
     void move(const Point diff);
