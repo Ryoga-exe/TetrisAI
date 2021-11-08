@@ -1,6 +1,6 @@
 ﻿#include "Bag.hpp"
 #include "Mino/Block.hpp"
-#include "Mino/Mino.hpp"
+#include "Mino/TetriMino.hpp"
 
 Bag::Bag() {
     set();
@@ -20,7 +20,7 @@ bool Bag::set() {
         return false;
     }
     Array<uint32> arr;
-    for (auto e : step(Mino::Types)) arr << e;
+    for (auto e : step(Tetrimino::Types)) arr << e;
     Shuffle(arr);
     for (auto e : arr) {
         m_que.push(e);
