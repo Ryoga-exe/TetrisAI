@@ -82,4 +82,5 @@ private:
     Stopwatch m_stopwatch;
     Effect m_effect;
     Font m_effectFont;
+    Font m_mainFont;
 };

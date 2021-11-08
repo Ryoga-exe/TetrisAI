@@ -23,8 +23,6 @@ void Tetrimino::draw(const Point v, const ::Size s, const Optional<Color> color)
     const float width = (float)s.x / Tetrimino::Size;
     const float height = (float)s.y / Tetrimino::Size;
 
-    Rect{ v, s }.draw(Palette::Black);
-
     for (int32 y = 0; y < Tetrimino::Size; y++) {
         for (int32 x = 0; x < Tetrimino::Size; x++) {
             if (Tetrimino::Shapes[m_type][m_angle][y][x] != Blocks::Air) {
