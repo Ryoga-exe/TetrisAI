@@ -144,7 +144,7 @@ void Tetris::draw() const {
 
     m_stage.draw(Scene::Width() / 2 - Scene::Height() / 4, 0, Scene::Height() / 2, Scene::Height(), 1.0);
 
-    m_mainFont(U"NEXT").draw(640, 15);
+    m_mainFont(U"NEXT").draw(Arg::center = Vec2{ 672.5, 25 });
     Rect{ 600, 50, 145, 535 }.draw(Palette::Black);
 
     int32 y = 0;
@@ -153,12 +153,14 @@ void Tetris::draw() const {
         y++;
     }
 
-    m_mainFont(U"HOLD").draw(90, 15);
+    m_mainFont(U"HOLD").draw(Arg::center = Vec2{ 125.5, 25 });
     Rect{ 53, 50, 145, 90 }.draw(Palette::Black);
 
     if (m_holdMino) {
         m_holdMino.value().draw({ 83, 50 }, { 85, 85 }, m_hasHeld ? Optional<Color>(Palette::Lightgray) : none);
     }
+
+    m_mainFont(U"SCORE").draw(Arg::center = Vec2{ 125.5, 300 });
 
     m_effect.update();
 }
