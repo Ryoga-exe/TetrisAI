@@ -286,8 +286,8 @@ void Tetris::deleteLines() {
     }
 
     Vec2 pos;
-    pos = Vec2{ Scene::Height() / 4, Scene::Height() / Stage::Height * m_currentMino.position().y };
-    pos += Vec2{ 100, 0 };
+    pos = Vec2{ Scene::Width() / 2, Scene::Height() / Stage::Height * m_currentMino.position().y };
+    
     m_effect.add<ActionEffect>(pos, action, m_effectFont);
     if (b2bText) {
         m_effect.add<ActionEffect>(pos.moveBy(0, 25), U"Back to Back", m_effectFont);
