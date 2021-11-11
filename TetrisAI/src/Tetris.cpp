@@ -166,7 +166,7 @@ void Tetris::draw() const {
 
     m_mainFont(U"TIME").draw(Arg::center = Vec2{ 125.5, 300 });
     Rect{ 53, 325, 145, 42 }.draw(Palette::Black);
-    m_mainFont(m_stopwatch.format(U"mm:ss.xx")).draw(Arg::center = Vec2{125.5, 345});
+    m_mainFont(m_stopwatch.format(U"mm:ss.xx")).draw(Arg::center = Vec2{ 125.5, 345 });
 
     m_effect.update();
 }
