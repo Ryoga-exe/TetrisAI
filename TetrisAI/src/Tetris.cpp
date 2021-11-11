@@ -458,3 +458,36 @@ Array<std::pair<Tetrimino, SRS::TSpin>> Tetris::getAllPlaceableWithTSpin() {
 
     return ret;
 }
+
+bool Tetris::minoMoveTo(uint32 index) {
+    auto all = getAllPlaceableWithTSpin();
+    if (index >= all.size()) {
+        return false;
+    }
+
+    m_currentMino = all[index].first;
+    m_tspin = all[index].second;
+
+    deleteLines();
+    generate();
+
+    return true;
+}
+
+bool Tetris::holdMino() {
+    if (m_hasHeld) return false;
+
+    Tetrimino buf = Tetrimino(m_currentMino.type());
+    if (!m_holdMino) {
+        m_holdMino = buf;
+    }
+    else {
+        m_nextMinos.push_front(*m_holdMino);
+        m_holdMino = buf;
+    }
+    generate();
+    m_hasHeld = true;
+    m_prevDownTime = m_stopwatch.elapsed();
+
+    return true;
+}

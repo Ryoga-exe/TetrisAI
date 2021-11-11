@@ -58,6 +58,9 @@ public:
     Array<Tetrimino> getAllPlaceable();
     Array<std::pair<Tetrimino, SRS::TSpin>> getAllPlaceableWithTSpin();
 
+    bool minoMoveTo(uint32 index);
+    bool holdMino();
+
 private:
     bool downMino();
     void deleteLines();
