@@ -55,6 +55,10 @@ public:
     Stage& getStage() {
         return m_stage;
     }
+    int32 getScore() {
+        return m_score;
+    }
+
     Array<Tetrimino> getAllPlaceable();
     Array<std::pair<Tetrimino, SRS::TSpin>> getAllPlaceableWithTSpin();
 
