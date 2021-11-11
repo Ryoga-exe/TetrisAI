@@ -168,6 +168,11 @@ void Tetris::draw() const {
     Rect{ 53, 325, 145, 42 }.draw(Palette::Black);
     m_mainFont(m_stopwatch.format(U"mm:ss.xx")).draw(Arg::center = Vec2{ 125.5, 345 });
 
+    m_mainFont(U"LINES:").draw(Arg::leftCenter = Vec2{ 53, 450 });
+    m_mainFont(m_level.deletedLineNum()).draw(Arg::leftCenter = Vec2{ 173, 450 });
+    m_mainFont(U"LEVEL:").draw(Arg::leftCenter = Vec2{ 53, 490 });
+    m_mainFont(m_level).draw(Arg::leftCenter = Vec2{ 173, 490 });
+
     m_effect.update();
 }
 
@@ -314,6 +319,7 @@ void Tetris::generate() {
     if (m_stage.isHit(m_currentMino)) {
         // gameover
         m_isGameover = true;
+        m_stopwatch.pause();
     }
 
     for (int32 i = 0; i < 2; i++) {
