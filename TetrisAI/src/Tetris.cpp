@@ -160,7 +160,13 @@ void Tetris::draw() const {
         m_holdMino.value().draw({ 83, 50 }, { 85, 85 }, m_hasHeld ? Optional<Color>(Palette::Lightgray) : none);
     }
 
-    m_mainFont(U"SCORE").draw(Arg::center = Vec2{ 125.5, 300 });
+    m_mainFont(U"SCORE").draw(Arg::center = Vec2{ 125.5, 200 });
+    Rect{ 53, 225, 145, 42 }.draw(Palette::Black);
+    m_mainFont(U"{}"_fmt(m_score)).draw(Arg::rightCenter = Vec2{ 173, 245 });
+
+    m_mainFont(U"TIME").draw(Arg::center = Vec2{ 125.5, 300 });
+    Rect{ 53, 325, 145, 42 }.draw(Palette::Black);
+    m_mainFont(m_stopwatch.format(U"mm:ss.xx")).draw(Arg::center = Vec2{125.5, 345});
 
     m_effect.update();
 }
