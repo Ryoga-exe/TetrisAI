@@ -391,3 +391,70 @@ Array<Tetrimino> Tetris::getAllPlaceable() {
 
     return ret;
 }
+
+Array<std::pair<Tetrimino, SRS::TSpin>> Tetris::getAllPlaceableWithTSpin() {
+    Array<std::pair<Tetrimino, SRS::TSpin>> ret;
+
+    Tetrimino buf = m_currentMino;
+    if (m_level >= Level::MAX_SPEED_LEVEL) {
+        for (int32 y = 0; ; y++) {
+            if (m_stage.isHit(buf.moved(0, y + 1))) {
+                buf.move(0, y);
+                break;
+            }
+        }
+    }
+
+    std::deque<std::pair<Tetrimino, SRS::TSpin>> que;
+    HashSet<Vector3D<int32>> visited;
+    que.push_back({ buf, SRS::TSpin::None });
+    visited.insert(buf.asVec3());
+
+    while (!que.empty()) {
+        auto [q, t] = que.front();
+        que.pop_front();
+
+        // Right
+        if (!m_stage.isHit(q.moved(1, 0))) {
+            if (!visited.contains(q.moved(1, 0).asVec3())) {
+                que.push_front({ q.moved(1, 0), SRS::TSpin::None });
+                visited.insert(q.moved(1, 0).asVec3());
+            }
+        }
+
+        // Left
+        if (!m_stage.isHit(q.moved(-1, 0))) {
+            if (!visited.contains(q.moved(-1, 0).asVec3())) {
+                que.push_front({ q.moved(-1, 0), SRS::TSpin::None });
+                visited.insert(q.moved(-1, 0).asVec3());
+            }
+        }
+        // Down
+        if (!m_stage.isHit(q.moved(0, 1))) {
+            if (!visited.contains(q.moved(0, 1).asVec3())) {
+                que.push_front({ q.moved(0, 1), SRS::TSpin::None });
+                visited.insert(q.moved(0, 1).asVec3());
+            }
+        }
+        else {
+            ret << std::pair{ q, t };
+        }
+        // Rotate clockwise
+        Tetrimino rotatedClockwise = q;
+        int8 rotatedPointClockwise = SRS::Rotate(m_stage, rotatedClockwise, true);
+        if (rotatedPointClockwise != -1 && !visited.contains(rotatedClockwise.asVec3())) {
+            que.push_back({ rotatedClockwise, SRS::IsTSpined(m_stage, rotatedClockwise, rotatedPointClockwise) });
+            visited.insert(rotatedClockwise.asVec3());
+        }
+
+        // Rotate counterclockwise
+        Tetrimino rotatedCounterclockwise = q;
+        int8 rotatedPointCounterclockwise = SRS::Rotate(m_stage, rotatedCounterclockwise, false);
+        if (rotatedPointCounterclockwise != -1 && !visited.contains(rotatedCounterclockwise.asVec3())) {
+            que.push_back({ rotatedCounterclockwise, SRS::IsTSpined(m_stage, rotatedCounterclockwise, rotatedPointCounterclockwise) });
+            visited.insert(rotatedCounterclockwise.asVec3());
+        }
+    }
+
+    return ret;
+}

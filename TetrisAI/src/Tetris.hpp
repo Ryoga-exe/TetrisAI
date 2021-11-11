@@ -56,6 +56,7 @@ public:
         return m_stage;
     }
     Array<Tetrimino> getAllPlaceable();
+    Array<std::pair<Tetrimino, SRS::TSpin>> getAllPlaceableWithTSpin();
 
 private:
     bool downMino();
