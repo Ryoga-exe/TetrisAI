@@ -4,6 +4,7 @@
 
 void Main() {
     Graphics::SetVSyncEnabled(false);
+    Scene::SetBackground(Palette::Slategray);
     Tetris tetris;
     KeyConfig keycon;
 
