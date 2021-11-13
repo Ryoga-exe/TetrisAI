@@ -474,8 +474,12 @@ bool Tetris::minoMoveTo(uint32 index) {
     m_currentMino = all[index].first;
     m_tspin = all[index].second;
 
-    deleteLines();
-    generate();
+    m_prevDownTime = -m_level.interval();
+
+    if (downMino()) {
+        deleteLines();
+        generate();
+    }
 
     return true;
 }
