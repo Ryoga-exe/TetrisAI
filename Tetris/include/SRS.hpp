@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Mino/Tetrimino.hpp"
-#include "Stage/Stage.hpp"
+#include "Tetrimino.hpp"
+#include "Stage.hpp"
 
 // SRS ... Super Rotation System
 namespace SRS {

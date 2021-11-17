@@ -1,6 +1,6 @@
 ﻿#include "Bag.hpp"
-#include "Mino/Block.hpp"
-#include "Mino/TetriMino.hpp"
+#include "Block.hpp"
+#include "TetriMino.hpp"
 
 Bag::Bag() {
     set();

@@ -1,5 +1,5 @@
 ﻿#include "Tetrimino.hpp"
-#include "Stage/Stage.hpp"
+#include "Stage.hpp"
 
 Tetrimino::Tetrimino()
     : m_type(0), m_angle(0) {

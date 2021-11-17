@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "Common.hpp"
-#include "Mino/Block.hpp"
-#include "Mino/Tetrimino.hpp"
+#include <Siv3D.hpp> // OpenSiv3D v0.6.2
+#include "Block.hpp"
+#include "Tetrimino.hpp"
 
 class Stage {
 public:

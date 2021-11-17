@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "Mino/Block.hpp"
-#include "Mino/Tetrimino.hpp"
-#include "Stage/Stage.hpp"
-#include "Bag/Bag.hpp"
-#include "SRS/SRS.hpp"
+#include "Block.hpp"
+#include "Tetrimino.hpp"
+#include "Stage.hpp"
+#include "Bag.hpp"
+#include "SRS.hpp"
 #include "Utils/Lockdown.hpp"
 #include "Utils/Level.hpp"
 
